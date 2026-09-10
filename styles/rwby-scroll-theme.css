@@ -218,14 +218,6 @@ body.rwby-scroll-theme .starwarsffg .characteristic-item .characteristic {
 body.rwby-scroll-theme .starwarsffg .item-sheet-species .characteristics .characteristic-item .characteristic-label {
   background-color: var(--rwby-plate-bg);
 }
-/* Characteristic labels (Brawn/Agility/etc.), bold text only. Scoped to
-   the actor's own "character" sheet -- weapon/armor/gear item sheets use
-   this exact same characteristic-item/characteristic-label markup for
-   their own stats (Encumbrance, Rarity, etc.), but their root form never
-   has the "character" class, so they're untouched by this rule. */
-body.rwby-scroll-theme .starwarsffg.sheet.actor .character .characteristic-item .characteristic-label {
-  font-weight: bold;
-}
 
 /* ---------- Block / attribute panels (wounds, soak, resources, etc.) ---------- */
 body.rwby-scroll-theme .starwarsffg .block-background {
@@ -247,17 +239,6 @@ body.rwby-scroll-theme .starwarsffg .item-sheet-armor .attribute .block-title {
 }
 body.rwby-scroll-theme .starwarsffg .item-sheet-armor .block-background {
   background-color: var(--rwby-panel-bg);
-}
-/* Wounds/Strain/Soak/Defense text, bold only. The "Primary Stats
-   Container" that holds these four boxes sits inside .header-fields on
-   the actor's character sheet, and nothing else does -- Motivation,
-   Background, Obligation, XP, Encumbrance, and every item sheet's own
-   Price/Quantity/etc. blocks use this same .attribute/.block-title markup
-   but live elsewhere in the sheet (or on a different sheet entirely), so
-   scoping to .header-fields keeps this to just those four boxes. */
-body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .attribute .block-title,
-body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .attribute .block-header {
-  font-weight: bold;
 }
 
 /* Duty/Morality style split shadow boxes */
@@ -357,13 +338,9 @@ body.rwby-scroll-theme .starwarsffg .skillsGrid {
   font-family: var(--rwby-font-body);
 }
 /* Skills header row (the "Skill / Career / Rank / Roll" bar at the top of
-   each column) -- also bold, on top of the font swap. starwarsffg.css and
-   mandar.css both set font-weight: normal directly on this same element,
-   so this needs to actually declare font-weight to win, not just add one
-   more class for specificity. */
+   each column) -- font only, no bold (didn't read well at this text size). */
 body.rwby-scroll-theme .starwarsffg .skillsGrid .skillTable .skillsHeader div {
   font-family: var(--rwby-font-body);
-  font-weight: bold;
 }
 body.rwby-scroll-theme .starwarsffg .resource.full table thead {
   background: var(--rwby-plate-bg);
@@ -679,15 +656,12 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .skillsGrid .skillT
   border: 1px solid var(--rwby-accent) !important;
   background: rgba(184, 145, 47, 0.06) !important;
 }
-/* Skills grid font + bold header -- same reasoning as the Part 1 version
-   above. mandar.css sets font-weight: normal directly on this same
-   selector, hence !important here to match the rest of Part 2. */
+/* Skills grid font -- same reasoning as the Part 1 version above, no bold. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .skillsGrid {
   font-family: var(--rwby-font-body) !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .skillsGrid .skillTable .skillsHeader div {
   font-family: var(--rwby-font-body) !important;
-  font-weight: bold !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .resource.full table thead {
   background: var(--rwby-plate-bg) !important;
