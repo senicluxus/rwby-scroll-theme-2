@@ -1,0 +1,8 @@
+{
+  "RWBY-SCROLL-THEME": {
+    "SettingName": "Character Sheet Theme",
+    "SettingHint": "Choose a color theme for Star Wars FFG character and item sheets. Only changes colors, plates, and background art \u2014 no layout or functionality changes.",
+    "ChoiceNone": "None (system default / Mandar)",
+    "ChoiceRwby": "RWBY Scroll (white & gold)"
+  }
+}
