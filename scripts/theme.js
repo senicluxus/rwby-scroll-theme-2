@@ -83,6 +83,55 @@ function applyBodyTheme(value) {
   if (enabled) reorderStylesheet();
 }
 
+/**
+ * Wounds health bar, under the portrait (Mandar-only; character sheets
+ * only). CSS draws the bar itself -- this just reads the Current and
+ * Threshold boxes and hands over one number: what fraction of health is
+ * left, from 1 (no wounds) down to 0 (current wounds = threshold). The bar
+ * element doesn't exist in the system's own template, so the first time a
+ * sheet renders we create it once and just update the number after that.
+ */
+const HEALTHBAR_CLASS = "rwby-healthbar";
+
+function updateHealthBar(app, html) {
+  if (!document.body.classList.contains(MANDAR_THEME_CLASS)) return;
+  if (app?.actor?.type !== "character") return;
+
+  // Older Foundry hooks hand this over as a jQuery object; newer ones may
+  // pass the raw element directly -- this covers both.
+  const root = html instanceof HTMLElement ? html : html?.[0];
+  if (!root) return;
+
+  const profileBlock = root.querySelector(".header-fields .profile-block");
+  const currentInput = root.querySelector('input[name="data.stats.wounds.value"]');
+  const maxInput = root.querySelector('input[name="data.stats.wounds.max"]');
+  if (!profileBlock || !currentInput || !maxInput) return;
+
+  const current = Number(currentInput.value) || 0;
+  const max = Number(maxInput.value) || 0;
+  const remaining = max > 0 ? Math.min(1, Math.max(0, 1 - current / max)) : 1;
+  // Three fixed color bands instead of a smooth blend -- matches how
+  // wound thresholds are usually talked about (healthy/wounded/critical).
+  const band = remaining >= 0.66 ? "healthy" : remaining <= 0.33 ? "critical" : "wounded";
+
+  let bar = profileBlock.querySelector(`:scope > .${HEALTHBAR_CLASS}`);
+  if (!bar) {
+    bar = document.createElement("div");
+    bar.className = HEALTHBAR_CLASS;
+    const fill = document.createElement("div");
+    fill.className = `${HEALTHBAR_CLASS}-fill`;
+    bar.appendChild(fill);
+    profileBlock.appendChild(bar);
+  }
+  bar.style.setProperty("--rwby-health-pct", remaining);
+
+  const fill = bar.querySelector(`.${HEALTHBAR_CLASS}-fill`);
+  fill.classList.remove("rwby-health-healthy", "rwby-health-wounded", "rwby-health-critical");
+  fill.classList.add(`rwby-health-${band}`);
+}
+
+Hooks.on("renderActorSheet", (app, html) => updateHealthBar(app, html));
+
 Hooks.once("init", () => {
   game.settings.register(MODULE_ID, SETTING_KEY, {
     name: "RWBY-SCROLL-THEME.SettingName",
