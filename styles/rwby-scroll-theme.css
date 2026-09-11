@@ -120,6 +120,14 @@ body.rwby-scroll-theme {
      colors (green/red/blue), so hovering still gives the same feedback. */
   --rwby-icon-color: black;
 
+  /* Radius of the decorative rounded top-left corner on the sheet window
+     (see "Rounded top-left corner" further down). Also reused as the
+     inward padding added to the header's portrait/name area, so the
+     content always clears the curve by enough margin no matter how big
+     or small you make it -- change this one number and both stay in
+     sync. */
+  --rwby-corner-radius: 28px;
+
   /* ---- Fonts ----
      Two separate variables so the big stylized name field at the top of
      an actor sheet can keep its own look, distinct from the rest of the
@@ -149,6 +157,22 @@ body.rwby-scroll-theme .starwarsffg.sheet .window-content {
   color: var(--rwby-text);
   font-family: var(--rwby-font-body);
 }
+
+/* ---------- Rounded top-left corner (scroll-roller shape) ----------
+   Rounds the sheet's top-left corner instead of leaving a sharp square
+   edge. "overflow: hidden" is what actually clips the window's own
+   background/border to that new curved shape -- border-radius alone only
+   bends the corner, it doesn't cut anything off. The little wedge of
+   space the curve removes isn't colored at all; it just shows whatever's
+   behind the window (the game table), since that corner is no longer
+   part of the window's visible shape.
+   (.window-content already had overflow-y: hidden set elsewhere, so this
+   isn't introducing vertical clipping that wasn't already happening --
+   it adds horizontal clipping too, which is what the curve needs.) */
+body.rwby-scroll-theme .starwarsffg.sheet .window-content {
+  border-top-left-radius: var(--rwby-corner-radius);
+  overflow: hidden;
+}
 /* Item sheets set their own font-family directly on ".item-form" (their
    root wrapper), which otherwise blocks the font-family set on
    .window-content above from ever reaching an item sheet's text --
@@ -156,6 +180,66 @@ body.rwby-scroll-theme .starwarsffg.sheet .window-content {
    themselves, and this one does. Needs its own line for that reason. */
 body.rwby-scroll-theme .starwarsffg .item-form {
   font-family: var(--rwby-font-body);
+}
+
+/* ---------- Header bar background: scroll-handle cap + tiled parchment ----------
+   The character sheet's header actually has two stacked rows inside it:
+   the top one holds the portrait, name, and the species/career/
+   specialization/force power/signature ability line; the second, below
+   it, holds the Wounds/Strain/Soak/Defense boxes. Both rows are plain
+   sibling <div class="container"> elements with no other class of their
+   own, so ":first-child" is what grabs just the top one -- this rule
+   deliberately targets ONLY that row (not the whole header), so the cap
+   stops exactly at its bottom edge instead of also covering the stat
+   boxes below.
+
+   Two images, layered:
+     1. scroll-handle-cap.png -- a fixed, non-repeating "roller end" image
+        pinned to the left.
+     2. the tiled texture -- the same parchment pattern used for the rest
+        of the sheet (or your own matching art), tiling left-to-right
+        (repeat-x).
+
+   Both layers use background-size: auto 100% -- both scale their height
+   to match this row's real on-screen height, together, by the same rule.
+   That's deliberate: earlier this used "auto" (no scaling at all) for
+   layer 2, which meant only the cap resized to fit the row while the tile
+   stayed at its own native pixel size -- fine at the exact row height the
+   art happened to be built for, but the two would drift out of alignment
+   at any other height (a different zoom level, a longer name wrapping the
+   row taller, etc.), since only one of the two was reacting to that
+   change. Scaling both the same way keeps them locked together no matter
+   what height the row ends up at.
+
+   Layer 1 is listed first, which in CSS means it paints ON TOP of layer 2
+   -- so the cap simply covers whatever part of the tiled texture would
+   otherwise show up underneath its own width. That means there's no pixel
+   math to keep them from overlapping or leaving a gap.
+
+   For your own art to land pixel-perfect at the seam: it's not about
+   matching pixel counts between the two files, it's about matching what
+   FRACTION of each image's own height one repeating detail (a grid
+   square, a wood-grain ring, whatever) takes up -- since both images are
+   now being resized by the same height-based rule, matching proportions
+   keeps them in lockstep at any size, not just one specific height. */
+body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields > .container:first-child {
+  background-image: url("../assets/scroll-handle-cap.png"), url("../assets/scroll-handle-cap.png");
+  background-repeat: no-repeat, repeat-x;
+  background-position: left top, left top;
+  background-size: auto 100%, auto 100%;
+  /* Keeps this row's own background reaching all the way to the window's
+     true top-left corner even though the padding below pushes its actual
+     CONTENT (the portrait, name, etc.) inward -- background-origin:
+     border-box tells the browser to measure "left top" from the outer
+     edge of the box, ignoring padding, so the rounded-corner cap still
+     lines up with the curve rather than stopping short of it. */
+  background-origin: border-box;
+  /* Pushes the portrait/name inward by the same amount as the rounded
+     corner above, so the curve doesn't visually "bite into" the square
+     portrait image's corner -- without this, the curve would cut across
+     the artwork instead of just the empty background around it. */
+  padding-top: var(--rwby-corner-radius);
+  padding-left: var(--rwby-corner-radius);
 }
 /* Same reason -- a block's multi-line text area (e.g. a Notes/Background
    box) sets its own font-family directly too. */
@@ -465,6 +549,63 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .window-cont
   background-image: url("../assets/scroll-bg.png") !important;
   background-repeat: repeat !important;
   color: var(--rwby-text) !important;
+}
+
+/* ---------- Wider minimum window size (Mandar-only) ----------
+   mandar.css won't let the character sheet's window get any narrower
+   than 600px (".starwarsffg.sheet.actor { min-width: 600px; }"). At
+   exactly that width the header row's Species/Career/Specializations/
+   Force Powers/Signature Abilities table needs a horizontal scrollbar to
+   fit -- made a little worse by the rounded-corner padding added above,
+   which eats into the same row's available width. Raising the floor by
+   50px gives that table enough room to fit without scrolling. ":has(.character)"
+   keeps this to just the character sheet, not vehicle/minion/NPC sheets,
+   which don't have this problem and were already sized appropriately. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor:has(.character) {
+  min-width: 650px !important;
+}
+
+/* ---------- Header cap: flush with the window's true top-left corner (Mandar-only) ----------
+   The previous attempt at this (pulling the row out with a negative
+   margin to compensate for its ancestors' padding) still left a sliver of
+   the tiled texture showing above/left of the cap -- the compensation
+   didn't fully cancel it out. Simpler and more exact: mandar.css puts
+   0.25rem of padding on .window-content, then another 0.25rem on
+   .header-fields, both of which push the row (and everything painted on
+   it) in from the window's real corner. Removing just the top/left
+   padding from those same two elements (rather than trying to counteract
+   it further down the tree) closes the gap at its source instead of
+   estimating an offset to cancel it. .sheet-body (the tab content below
+   the header) has its own separate padding in mandar.css, so this doesn't
+   affect the rest of the sheet -- only pulls the header itself flush. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .window-content:has(.character) {
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields {
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* ---------- Characteristics/Skills tab: remove the translucent white
+   panel + fading top line (Mandar-only) ----------
+   mandar.css puts a semi-transparent white wash and a fading horizontal
+   line on ".sheet-body" -- the single container that holds EVERY tab's
+   content (Characteristics, Gear, Talents, Biography, etc.), not just
+   Characteristics/Skills. Other tabs are mostly covered edge-to-edge by
+   opaque item-list rows, so it's not very visible there; the
+   Characteristics tab has open space around the circles and skill grid,
+   so it shows through clearly.
+   Rather than remove it everywhere (which would also change the other
+   tabs), :has() lets this rule only take effect while the Characteristics
+   tab specifically is the one currently showing -- a newer CSS feature
+   that lets a selector look at what's inside an element, supported by the
+   version of Chrome/Electron Foundry runs on. Every other tab keeps the
+   wash and line exactly as before. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body:has(.tab.characteristics.active) {
+  background: transparent !important;
+  border-top: none !important;
+  border-image: none !important;
 }
 
 /* ---------- Primary notched tab bar (character/item nav) ---------- */
