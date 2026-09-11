@@ -76,6 +76,16 @@ body.rwby-scroll-theme {
      content padding so both stay in sync. */
   --rwby-corner-radius: 28px;
 
+  /* How far the Team Attacks column (label + pills, right of the
+     divider line) sits from that divider (Mandar-only). Smaller number
+     = text sits closer to the line. */
+  --rwby-team-attacks-gap: 0.5rem;
+
+  /* How far the whole name/details block (name field, Archetype/Career/
+     Role/Semblance table, all of it) is pushed right, away from the
+     picture (Mandar-only). Bigger number = more gap. */
+  --rwby-details-indent: 4rem;
+
   /* ---- Wounds health bar, left of the portrait (Mandar-only) ----
      theme.js sorts health into one of these three bands (healthy/wounded/
      critical) each render and picks the matching color -- no in-between
@@ -84,10 +94,10 @@ body.rwby-scroll-theme {
   --rwby-health-full: #25FF00;     /* healthy: 66% health or above */
   --rwby-health-wounded: #FFC047;  /* wounded: between 33% and 66% */
   --rwby-health-empty: red;    /* critical: 33% health or below */
-  --rwby-healthbar-thickness: 20px;  /* the bar's short dimension (width, since it's vertical) */
-  --rwby-healthbar-gap: 4px;    /* space between the portrait and the bar */
-  --rwby-healthbar-glow: rgba(255, 255, 255, 0.8);
-  --rwby-healthbar-glow-size: 2px;
+  --rwby-healthbar-thickness: 22px;  /* the bar's short dimension (width, since it's vertical) */
+  --rwby-healthbar-gap: -215px;    /* space between the portrait and the bar */
+  --rwby-healthbar-glow: rgba(255, 255, 255, 0);
+  --rwby-healthbar-glow-size: 0px;
 
   /* ---- Fonts ----
      Separate stacks for body text and the name-field heading, so the name
@@ -469,7 +479,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   width: var(--rwby-healthbar-thickness) !important;
   height: 100% !important;
   background: rgba(255, 255, 255, 1) !important;
-  border: 1px solid rgba(255, 255, 255, 1) !important;
+  border: 0px solid rgba(255, 255, 255, 1) !important;
   border-radius: 0 !important;
   box-shadow: 0 0 var(--rwby-healthbar-glow-size) var(--rwby-healthbar-glow-size) var(--rwby-healthbar-glow) !important;
   overflow: hidden !important;
@@ -659,6 +669,18 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   padding-right: 0.1rem !important;
 }
 
+/* ---------- Push the whole name/details block right, away from the
+   picture (Mandar-only) ----------
+   This is the div holding BOTH the name field and the Archetype/Career/
+   Role/Semblance/Team Attacks table -- shifting it moves everything
+   together. Mandar sets this block to a flat 100% width, so shrinking it
+   by the same amount as the margin keeps its right edge in place --
+   without that, the margin would just push it that much past the edge. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-name.header-description-block {
+  margin-left: var(--rwby-details-indent) !important;
+  width: calc(100% - var(--rwby-details-indent)) !important;
+}
+
 /* ---------- Reflow: Background/Education/Role/Semblance stacked in one
    column, Team Attacks in its own column (Mandar-only) ----------
    The table's own rows are turned into a small grid (display:contents on
@@ -673,7 +695,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
      than the sheet. The 0 removes that floor -- see the ellipsis rule
      below for what actually happens to that text once its column shrinks
      past it. */
-  grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) !important;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) !important;
   gap: 0.15rem !important;
   width: 100% !important;
 }
@@ -697,8 +719,10 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   grid-column: 2 !important;
   grid-row: 2 !important;
 }
-/* Row 2 as written: Specializations/Role moves up under Education; Force
-   Powers/Team Attacks get their own column, spanning all 4 rows tall. */
+/* Row 2 as written: Specializations/Role moves up under Education; the
+   Team Attacks label and its pills now share ONE column (3) instead of
+   two -- label on top (row 1), pills stacked directly below it (rows
+   2-4), so pills start below the label instead of beside it. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(1) {
   grid-column: 1 !important;
   grid-row: 3 !important;
@@ -707,13 +731,22 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   grid-column: 2 !important;
   grid-row: 3 !important;
 }
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(3) {
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(3),
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(4) {
   grid-column: 3 !important;
-  grid-row: 1 / span 4 !important;
+  /* A thin line down the left side, so Team Attacks reads as its own
+     section instead of looking crammed into the Archetype row above it.
+     text-align:left keeps the label and pills hugging that line instead
+     of drifting away from it. */
+  border-left: 2px solid var(--rwby-accent) !important;
+  padding-left: var(--rwby-team-attacks-gap) !important;
+  text-align: left !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(3) {
+  grid-row: 1 !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(4) {
-  grid-column: 4 !important;
-  grid-row: 1 / span 4 !important;
+  grid-row: 2 / span 3 !important;
 }
 /* Row 3 as written: Signature Abilities/Semblance moves up too; its two
    unused trailing cells are just hidden. */

@@ -47,6 +47,12 @@
   "SWFFG.ForcePowers": "Team Attacks",
   "TYPES.Item.forcepower": "Team Attacks",
   "SWFFG.CharacterCreator.buttons.forcePower.purchase": "Purchase Team Attacks",
+  "SWFFG.ForceBasicPower": "Basic Combo",
+  "SWFFG.ForcePowerName": "Team Attack Name",
+  "SWFFG.ForcePowerRequiredFR": "Required Teamwork",
+  "SWFFG.ForceRating": "Team Cohesion",
+  "SWFFG.ForceUpgradeName": "Team Attack Upgrade Name",
+  "SWFFG.DiceForce": "Trust",
 
   "_NOTE_wizard_xp_sentence": "This sentence mentions BOTH Role and Team Attacks -- keep it matching those two groups above.",
   "SWFFG.CharacterCreator.Wizard.XP.Label": "Spend starting XP on characteristics, skill ranks, roles, or team attacks",
