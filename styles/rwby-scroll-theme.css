@@ -76,14 +76,15 @@ body.rwby-scroll-theme {
      content padding so both stay in sync. */
   --rwby-corner-radius: 28px;
 
-  /* ---- Wounds health bar, under the portrait (Mandar-only) ----
+  /* ---- Wounds health bar, left of the portrait (Mandar-only) ----
      theme.js sorts health into one of these three bands (healthy/wounded/
      critical) each render and picks the matching color -- no in-between
-     blending. */
+     blending. Full health fills the whole bar; it drains from the top
+     down, staying anchored to the bottom, as wounds increase. */
   --rwby-health-full: #25FF00;     /* healthy: 66% health or above */
   --rwby-health-wounded: #FFC047;  /* wounded: between 33% and 66% */
   --rwby-health-empty: red;    /* critical: 33% health or below */
-  --rwby-healthbar-height: 20px;
+  --rwby-healthbar-thickness: 20px;  /* the bar's short dimension (width, since it's vertical) */
   --rwby-healthbar-gap: 4px;    /* space between the portrait and the bar */
   --rwby-healthbar-glow: rgba(255, 255, 255, 0.8);
   --rwby-healthbar-glow-size: 2px;
@@ -233,7 +234,16 @@ body.rwby-scroll-theme .starwarsffg .attribute .shadow-right .shadow-text {
 
 /* ---------- Header name/description bar ----------
    No background -- the header art shows through here too, so this row matches the rest. */
-body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .header-description {
+body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .header-description,
+body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .header-description-block {
+  background: none;
+}
+
+/* ---------- Species/career/specs/force power/signature table rows ----------
+   Foundry stripes every other table row a lighter shade by default -- this
+   turns that off so all three rows match instead of one standing out. */
+body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .character-details-table tr,
+body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .character-details-table td {
   background: none;
 }
 
@@ -428,32 +438,67 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor:has(.ch
   min-width: 700px !important;
 }
 
-/* ---------- Wounds health bar, under the portrait (Mandar-only) ----------
+/* ---------- Let the Soak box shrink like Wounds/Strain/Defense (Mandar-only) ----------
+   Wounds/Strain/Defense show two inputs side by side in a grid that's
+   allowed to shrink to nothing; Soak's single input is missing that same
+   allowance, so it refuses to shrink and pushes Defense off the edge as
+   the sheet narrows. min-width:0 gives it the same permission. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single .attribute,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single .block-attribute,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single .block-value,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single input {
+  min-width: 0 !important;
+}
+
+/* ---------- Picture frame: fixed square matching the name/details box (Mandar-only) ----------
+   Mandar's own .header-description-block (name + species/career/etc.) is a
+   fixed 170px tall, so the portrait is set to match that as a square
+   instead of Mandar's default 130px -- object-fit:cover (already set by
+   Mandar) crops the image to fit without stretching it. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block {
+  height: 170px !important;
+  width: 170px !important;
+  max-width: 170px !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-img {
+  height: 170px !important;
+  width: 170px !important;
+  max-width: 170px !important;
+}
+
+/* ---------- Wounds health bar, left of the portrait (Mandar-only) ----------
    theme.js sets --rwby-health-pct on the bar each render (1 = full green,
    0 = full red); CSS handles the rest. position:relative on the portrait
-   anchors the bar directly under it. */
+   anchors the bar to its left edge. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block {
   position: relative !important;
 }
+/* Vertical bar to the left of the portrait, spanning its full height. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block .rwby-healthbar {
   position: absolute !important;
-  top: calc(100% + var(--rwby-healthbar-gap)) !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: var(--rwby-healthbar-height) !important;
+  top: 0 !important;
+  left: calc(-1 * (var(--rwby-healthbar-thickness) + var(--rwby-healthbar-gap))) !important;
+  width: var(--rwby-healthbar-thickness) !important;
+  height: 100% !important;
   background: rgba(255, 255, 255, 1) !important;
   border: 1px solid rgba(255, 255, 255, 1) !important;
   border-radius: 0 !important;
   box-shadow: 0 0 var(--rwby-healthbar-glow-size) var(--rwby-healthbar-glow-size) var(--rwby-healthbar-glow) !important;
   overflow: hidden !important;
 }
+/* Fill is anchored to the bottom, so it drains from the top down as wounds
+   increase -- the remaining health always stays attached to the bottom. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block .rwby-healthbar-fill {
   display: block !important;
-  height: 100% !important;
-  width: calc(var(--rwby-health-pct, 1) * 100%) !important;
-  transition: width 0.2s ease, background-color 0.2s ease !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: calc(var(--rwby-health-pct, 1) * 100%) !important;
+  transition: height 0.2s ease, background-color 0.2s ease !important;
 }
-/* theme.js adds one of these three classes to the fill; the width above
+/* theme.js adds one of these three classes to the fill; the height above
    still moves smoothly, only the color now jumps between bands. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block .rwby-healthbar-fill.rwby-health-healthy {
   background-color: var(--rwby-health-full) !important;
@@ -594,8 +639,98 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .attribute .shadow-
 
 /* ---------- Header name/description bar ----------
    No background -- the header art shows through here too, so this row matches the rest. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-description {
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-description,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-description-block {
   background: none !important;
+}
+/* Just the name row (the plain div wrapping the "Ruby Rose" field) gets its
+   own solid color, sized to that row alone -- not the table below it. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-description-block > div:first-child {
+  background-color: #4cc5cf !important;
+}
+
+/* ---------- Species/career/specs/force power/signature table rows ----------
+   Foundry stripes every other table row a lighter shade by default -- this
+   turns that off so all three rows match instead of one standing out. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table td {
+  background: none !important;
+}
+
+/* ---------- Tighter label columns (Mandar-only) ----------
+   The label column (Species/Specs/Signature Abilities) shares its width
+   with the longest label in it, leaving short ones with a big gap before
+   the pill. Shrinking it to just fit its text closes most of that gap. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table td:first-child,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table td:nth-child(3) {
+  width: 1% !important;
+  white-space: nowrap !important;
+  padding-right: 0.1rem !important;
+}
+
+/* ---------- Reflow: Background/Education/Role/Semblance stacked in one
+   column, Team Attacks in its own column (Mandar-only) ----------
+   The table's own rows are turned into a small grid (display:contents on
+   <tr> lets its <td> cells be placed individually) so a long Team Attacks
+   list can grow tall without stretching the row it used to share with
+   Role. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tbody {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto 1fr !important;
+  gap: 0.15rem !important;
+  width: 100% !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr {
+  display: contents !important;
+}
+/* Row 1 as written: Species/Background, then Career/Education. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(1) td:nth-child(1) {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(1) td:nth-child(2) {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(1) td:nth-child(3) {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(1) td:nth-child(4) {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+}
+/* Row 2 as written: Specializations/Role moves up under Education; Force
+   Powers/Team Attacks get their own column, spanning all 4 rows tall. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(1) {
+  grid-column: 1 !important;
+  grid-row: 3 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(2) {
+  grid-column: 2 !important;
+  grid-row: 3 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(3) {
+  grid-column: 3 !important;
+  grid-row: 1 / span 4 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(4) {
+  grid-column: 4 !important;
+  grid-row: 1 / span 4 !important;
+}
+/* Row 3 as written: Signature Abilities/Semblance moves up too; its two
+   unused trailing cells are just hidden. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(3) td:nth-child(1) {
+  grid-column: 1 !important;
+  grid-row: 4 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(3) td:nth-child(2) {
+  grid-column: 2 !important;
+  grid-row: 4 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(3) td:nth-child(3),
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(3) td:nth-child(4) {
+  display: none !important;
 }
 
 /* ---------- Character/minion name heading text & font (Mandar-only) ----------

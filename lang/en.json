@@ -1,8 +1,155 @@
 {
   "RWBY-SCROLL-THEME": {
     "SettingName": "Character Sheet Theme",
-    "SettingHint": "Choose a color theme for Star Wars FFG character and item sheets. Only changes colors, plates, and background art \u2014 no layout or functionality changes.",
+    "SettingHint": "Choose a color theme for Star Wars FFG character and item sheets. Only changes colors, plates, and background art — no layout or functionality changes.",
     "ChoiceNone": "None (system default / Mandar)",
     "ChoiceRwby": "RWBY Scroll (white & gold)"
-  }
+  },
+
+  "SWFFG.Name": "Name",
+  "SWFFG.DragNotes": "Drag Here",
+
+  "_NOTE_species_group": "Species -> Background. Change ALL of these together, everywhere the word appears.",
+  "SWFFG.Species": "Background",
+  "TYPES.Item.species": "Background",
+  "SWFFG.CharacterCreator.review.species": "Background",
+  "SWFFG.CharacterCreator.Wizard.Species.Label": "Please select a background",
+  "SWFFG.CharacterCreator.tables.buttons.species.select": "Select Background",
+
+  "_NOTE_career_group": "Career -> Education. Change ALL of these together, everywhere the word appears.",
+  "SWFFG.Career": "Education",
+  "TYPES.Item.career": "Education",
+  "SWFFG.CharacterCreator.review.career": "Education",
+  "SWFFG.CharacterCreator.Wizard.Career.Label": "an Education",
+  "SWFFG.CharacterCreator.Wizard.CareerRanks.Label": "4 education skill ranks",
+  "SWFFG.CharacterCreator.tables.labels.CareerSkills": "Education Skills",
+  "SWFFG.CharacterCreator.buttons.career.select": "Select Education",
+  "SWFFG.CharacterCreator.buttons.career.skillRanks": "Select Education Skill Ranks",
+
+  "_NOTE_specialization_group": "Specializations/Specs -> Role. Change ALL of these together, everywhere the word appears.",
+  "SWFFG.Specializations": "Role",
+  "TYPES.Item.specialization": "Role",
+  "SWFFG.CharacterCreator.review.specialization": "Role",
+  "SWFFG.CharacterCreator.Wizard.Specialization.Label": "a Role",
+  "SWFFG.CharacterCreator.Wizard.SpecializationRanks.Label": "2 role skill ranks",
+  "SWFFG.TabSpecializations": "Role",
+  "SWFFG.CharacterCreator.tables.labels.Specializations": "Role",
+  "SWFFG.CharacterCreator.buttons.specialization.select": "Select Role",
+  "SWFFG.CharacterCreator.buttons.specialization.skillRanks": "Select Role Education Skill Ranks",
+  "SWFFG.CharacterCreator.buttons.specialization.purchase": "Purchase Role",
+
+  "_NOTE_signatureability_group": "Signature Abilities -> Semblance. Change ALL of these together, everywhere the word appears.",
+  "SWFFG.SignatureAbilities": "Semblance",
+  "TYPES.Item.signatureability": "Semblance",
+  "SWFFG.CharacterCreator.tables.labels.SignatureAbilities": "Semblance",
+
+  "_NOTE_forcepower_group": "Force Powers -> Team Attacks. Change ALL of these together, everywhere the word appears.",
+  "SWFFG.ForcePowers": "Team Attacks",
+  "TYPES.Item.forcepower": "Team Attacks",
+  "SWFFG.CharacterCreator.buttons.forcePower.purchase": "Purchase Team Attacks",
+
+  "_NOTE_wizard_xp_sentence": "This sentence mentions BOTH Role and Team Attacks -- keep it matching those two groups above.",
+  "SWFFG.CharacterCreator.Wizard.XP.Label": "Spend starting XP on characteristics, skill ranks, role, or team attacks",
+
+  "SWFFG.Wounds": "Wounds",
+  "SWFFG.Strain": "Strain",
+  "SWFFG.Threshold": "Threshold",
+  "SWFFG.Current": "Current",
+
+  "_NOTE_soak_group": "These 3 all say Soak -- change together.",
+  "SWFFG.Soak": "Soak",
+  "SWFFG.ItemsSoak": "Soak",
+  "SWFFG.CharacterCreator.tables.labels.Soak": "Soak",
+
+  "_NOTE_defense_group": "These 2 all say Defense -- change together.",
+  "SWFFG.Defense": "Defense",
+  "SWFFG.ItemsDefense": "Defense",
+  "SWFFG.DefenseMelee": "Melee",
+  "SWFFG.DefenseRanged": "Ranged",
+
+  "SWFFG.ForcePool": "Force Pool",
+  "SWFFG.ForcePoolCommitted": "Committed",
+  "SWFFG.ForcePoolAvailable": "Maximum",
+  "SWFFG.Encumbrance": "Encumbrance",
+  "SWFFG.EncumbranceMax": "Encumbrance (Max)",
+  "SWFFG.DescriptionCredits": "Credits",
+
+  "SWFFG.TabCharacteristics": "Characteristics",
+  "SWFFG.TabGear": "Gear & Equipment",
+  "SWFFG.TabBiography": "Biography",
+  "SWFFG.TabModifiers": "Modifiers",
+  "SWFFG.TabXpLog": "XP log",
+  "SWFFG.TabEffects": "Active Effects",
+  "SWFFG.TabObligationDutyMorality": "Obligation / Duty / Morality",
+
+  "_NOTE_talents_group": "These 3 all say Talents -- change together.",
+  "SWFFG.TabTalents": "Talents",
+  "SWFFG.Talents": "Talents",
+  "SWFFG.CharacterCreator.tables.labels.Talents": "Talents",
+
+  "_NOTE_criticalinjury_group": "These 2 all say Critical Injuries -- change together.",
+  "SWFFG.TabCrits": "Critical Injuries",
+  "SWFFG.CriticalInjuries": "Critical Injuries",
+
+  "SWFFG.CharacteristicBrawn": "Brawn",
+  "SWFFG.CharacteristicBrawnAbbreviation": "Br",
+  "SWFFG.CharacteristicAgility": "Agility",
+  "SWFFG.CharacteristicAgilityAbbreviation": "Ag",
+  "SWFFG.CharacteristicIntellect": "Intellect",
+  "SWFFG.CharacteristicIntellectAbbreviation": "Int",
+  "SWFFG.CharacteristicCunning": "Cunning",
+  "SWFFG.CharacteristicCunningAbbreviation": "Cun",
+  "SWFFG.CharacteristicWillpower": "Willpower",
+  "SWFFG.CharacteristicWillpowerAbbreviation": "Will",
+  "SWFFG.CharacteristicPresence": "Presence",
+  "SWFFG.CharacteristicPresenceAbbreviation": "Pr",
+
+  "SWFFG.SkillsGeneral": "General Skills",
+  "SWFFG.SkillsCombat": "Combat Skills",
+  "SWFFG.SkillsKnowledge": "Knowledge Skills",
+  "SWFFG.SkillsName": "Name",
+  "SWFFG.SkillsCS": "CS",
+  "SWFFG.SkillsCareerSkill": "Career Skill",
+  "SWFFG.SkillsGS": "GS",
+  "SWFFG.SkillsGroupSkill": "Group Skill",
+  "SWFFG.SkillsRank": "Rank",
+
+  "SWFFG.DescriptionXP": "XP",
+
+  "_NOTE_obligation_group": "These 2 all say Obligation -- change together.",
+  "SWFFG.DescriptionObligation": "Obligation",
+  "TYPES.Item.obligation": "Obligation",
+  "SWFFG.CharacterCreator.Obligation.obligation": "Obligation",
+
+  "SWFFG.DescriptionDuty": "Duty",
+  "SWFFG.CharacterCreator.Obligation.duty": "Duty",
+
+  "SWFFG.DescriptionMorality": "Morality",
+  "SWFFG.CharacterCreator.Obligation.morality": "Morality",
+
+  "SWFFG.DescriptionConflict": "Conflict",
+  "SWFFG.CharacterCreator.Motivation.conflict": "Conflict",
+
+  "SWFFG.Gender": "Gender",
+  "SWFFG.Age": "Age",
+  "SWFFG.Height": "Height",
+  "SWFFG.Build": "Build",
+  "SWFFG.Hair": "Hair",
+  "SWFFG.Eyes": "Eyes",
+  "SWFFG.NotableFeature": "Notable Features",
+  "SWFFG.Notes": "Other",
+
+  "_NOTE_motivations_group": "These 2 all say Motivations -- change together.",
+  "SWFFG.Motivations": "Motivations",
+  "SWFFG.CharacterCreator.review.motivation": "Motivations",
+
+  "_NOTE_backgrounds_group": "IMPORTANT: this is the separate 'Background' fluff item type (TYPES.Item.background) -- a DIFFERENT thing from Species, which you already renamed to 'Background' above. Having both say the same word will look identical in the item-creation list. Rename one of them if that would be confusing.",
+  "SWFFG.Backgrounds": "Backgrounds",
+  "SWFFG.ItemsBackgrounds": "Backgrounds",
+  "SWFFG.CharacterCreator.review.background": "Backgrounds",
+
+  "SWFFG.Strength": "Strength",
+  "SWFFG.Flaw": "Flaw",
+  "SWFFG.Desire": "Desire",
+  "SWFFG.Fear": "Fear"
 }
