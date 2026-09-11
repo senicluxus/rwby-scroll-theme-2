@@ -223,7 +223,7 @@ body.rwby-scroll-theme .starwarsffg .item-form {
    now being resized by the same height-based rule, matching proportions
    keeps them in lockstep at any size, not just one specific height. */
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields > .container:first-child {
-  background-image: url("../assets/scroll-handle-cap.png"), url("../assets/scroll-handle-cap.png");
+  background-image: url("../assets/scroll-handle-cap.png"), url("../assets/scroll-handle-loop.png");
   background-repeat: no-repeat, repeat-x;
   background-position: left top, left top;
   background-size: auto 100%, auto 100%;
@@ -240,7 +240,12 @@ body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields > .con
      the artwork instead of just the empty background around it. */
   padding-top: var(--rwby-corner-radius);
   padding-left: var(--rwby-corner-radius);
+  /* Makes the row (and its background, which auto-fills the row's height)
+     the same amount taller below the content as it already is above it --
+     a matching buffer at the bottom, using the same art. */
+  padding-bottom: var(--rwby-corner-radius);
 }
+
 /* Same reason -- a block's multi-line text area (e.g. a Notes/Background
    box) sets its own font-family directly too. */
 body.rwby-scroll-theme .starwarsffg .attribute .block-value textarea {
@@ -562,7 +567,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .window-cont
    keeps this to just the character sheet, not vehicle/minion/NPC sheets,
    which don't have this problem and were already sized appropriately. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor:has(.character) {
-  min-width: 650px !important;
+  min-width: 700px !important;
 }
 
 /* ---------- Header cap: flush with the window's true top-left corner (Mandar-only) ----------
