@@ -86,6 +86,22 @@ body.rwby-scroll-theme {
      picture (Mandar-only). Bigger number = more gap. */
   --rwby-details-indent: 4rem;
 
+  /* ---- License card header, top of Basic Information tab (Mandar-only) ---- */
+  --rwby-license-title-width: 75%;   /* how much of the row the left "STUDENT LICENSE" header takes up */
+  --rwby-license-title-size: 1.4rem;
+  --rwby-license-nation-size: 0.85rem;  /* smaller font for the right-side "NATION" header */
+  --rwby-license-row-gap: 0.9rem;    /* extra vertical space between the LN row and PLACE OF ISSUE row */
+
+  /* How tall the Strength/Flaw/Desire/Fear boxes are on the Biography tab
+     (Mandar-only). This matches their original size on Basic Information --
+     bigger number = taller boxes. */
+  --rwby-bio-motivation-height: 6rem;
+
+  /* How wide the row of Strength/Flaw/Desire/Fear boxes is, as a percent
+     of the space available on the Biography tab (Mandar-only). 100% is as
+     wide as it can go -- each of the two boxes is always half of this. */
+  --rwby-bio-motivation-width: 100%;
+
   /* ---- Wounds health bar, left of the portrait (Mandar-only) ----
      theme.js sorts health into one of these three bands (healthy/wounded/
      critical) each render and picks the matching color -- no in-between
@@ -1024,4 +1040,118 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .ss-option {
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .ss-option:hover {
   background: var(--rwby-plate-bg) !important;
   color: var(--rwby-highlight) !important;
+}
+
+/* ---------- License card header, top of Basic Information tab (Mandar-only) ----------
+   Two headers side by side: "STUDENT LICENSE" takes up most of the row,
+   "NATION" gets the rest in a smaller font. Both are typable, not fixed text. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-header {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: baseline !important;
+  border-bottom: 2px solid var(--rwby-accent) !important;
+  margin-bottom: 0.5rem !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title {
+  flex: 0 0 var(--rwby-license-title-width) !important;
+  min-width: 0 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title input,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation input {
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  /* --rwby-font-body's first choice is our bundled Century Gothic font --
+     using that instead of --rwby-font-heading guarantees Century Gothic
+     specifically, rather than risking Elektra if a player happens to have
+     it installed. */
+  font-family: var(--rwby-font-body) !important;
+  font-weight: bold !important;
+  color: var(--rwby-charname-heading) !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title input {
+  font-size: var(--rwby-license-title-size) !important;
+  text-transform: uppercase !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation input {
+  font-size: var(--rwby-license-nation-size) !important;
+  text-align: right !important;
+}
+
+/* License fields (NAME, LN, PLACE OF ISSUE, AUTHORITY, RESTRICTIONS), each
+   its own row, with one extra gap between LN and PLACE OF ISSUE. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-fields {
+  display: flex !important;
+  flex-direction: column !important;
+  margin-bottom: 0.75rem !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin-bottom: 0.25rem !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row label {
+  flex: 0 0 auto !important;
+  font-weight: bold !important;
+  color: var(--rwby-text) !important;
+  white-space: nowrap !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row input {
+  flex: 1 !important;
+  min-width: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--rwby-accent) !important;
+  color: var(--rwby-text) !important;
+  font-family: var(--rwby-font-body) !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row-gap {
+  height: var(--rwby-license-row-gap) !important;
+}
+
+/* Strength/Flaw/Desire/Fear, now living above the Biography text box --
+   just a little breathing room so it doesn't crowd the editor below it,
+   and forced to use the full width available (the default gap between the
+   two boxes creeps back in without the "general" tab's own rules reaching
+   here anymore, so that's set back to 0 here too, same as before the move). */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.biography .rwby-bio-motivations {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  width: var(--rwby-bio-motivation-width) !important;
+  gap: 0 !important;
+  margin: 0 0 0.75rem !important;
+}
+
+/* These 4 boxes had their height set by rules scoped to the Basic
+   Information tab -- now that they live on Biography instead, that sizing
+   doesn't reach them anymore and they collapse down to almost nothing.
+   This puts the same sizing back, scoped to their new home instead. Width
+   and margin are reset too, in case a leftover style from their old home
+   (a percentage width, or side margins meant for a 4-column layout) was
+   still shrinking them. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .rwby-bio-motivations .resource {
+  min-height: var(--rwby-bio-motivation-height) !important;
+  width: auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .rwby-bio-motivations .resource .attribute {
+  height: 100% !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .rwby-bio-motivations .resource .attribute .block-background {
+  height: 100% !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .rwby-bio-motivations .resource .attribute .block-background .block-attribute {
+  height: calc(100% - 0.9375rem) !important;
+  overflow: hidden !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .rwby-bio-motivations .resource .attribute .block-background .block-attribute .block-value {
+  overflow: auto !important;
+  width: 100% !important;
+  height: 100% !important;
 }

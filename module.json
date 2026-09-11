@@ -1,8 +1,8 @@
 {
   "id": "rwby-scroll-theme",
   "title": "RWBY Scroll Theme (SWFFG)",
-  "description": "A selectable white-and-gold 'RWBY scroll' color theme for Star Wars FFG character and item sheets. Adds a client-side theme option; does not replace or alter any base sheets. Works with both the system's Default and Mandar UI themes.",
-  "version": "1.1.1",
+  "description": "A selectable white-and-gold 'RWBY scroll' color theme for Star Wars FFG character and item sheets. Adds a client-side theme option, plus an optional custom character sheet layout (license card, relocated motivation fields). Works with both the system's Default and Mandar UI themes.",
+  "version": "1.2.3",
   "authors": [
     { "name": "Carter" }
   ],
@@ -22,7 +22,8 @@
     ]
   },
   "esmodules": [
-    "scripts/theme.js"
+    "scripts/theme.js",
+    "scripts/rwby-sheet.js"
   ],
   "styles": [
     "styles/rwby-scroll-theme.css"

@@ -3,7 +3,16 @@
     "SettingName": "Character Sheet Theme",
     "SettingHint": "Choose a color theme for Star Wars FFG character and item sheets.",
     "ChoiceNone": "None (system default / Mandar)",
-    "ChoiceRwby": "RWBY"
+    "ChoiceRwby": "RWBY",
+
+    "_NOTE_license": "Labels for the license card fields on the Basic Information tab. Change the text here to rename any of these labels.",
+    "License": {
+      "Name": "NAME",
+      "Number": "LN",
+      "PlaceOfIssue": "PLACE OF ISSUE",
+      "Authority": "AUTHORITY",
+      "Restrictions": "RESTRICTIONS"
+    }
   },
 
   "SWFFG.Name": "Name",
