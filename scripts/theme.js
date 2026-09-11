@@ -130,7 +130,36 @@ function updateHealthBar(app, html) {
   fill.classList.add(`rwby-health-${band}`);
 }
 
-Hooks.on("renderActorSheet", (app, html) => updateHealthBar(app, html));
+/**
+ * Full-name tooltips for the header pills (Background/Education/Role/
+ * Semblance/Team Attacks), Mandar-only. CSS cuts long names off with
+ * "..." when they don't fit -- this puts the full name in a title
+ * attribute so hovering still shows it, since CSS alone can't reveal
+ * text it just cut off.
+ */
+const HEADER_PILL_SELECTOR = [
+  ".header-fields .species-pill",
+  ".header-fields .career-pill",
+  ".header-fields .specialization-pill",
+  ".header-fields .signatureability-pill",
+  ".header-fields .forcepower-pill"
+].join(", ");
+
+function updatePillTooltips(app, html) {
+  if (!document.body.classList.contains(MANDAR_THEME_CLASS)) return;
+
+  const root = html instanceof HTMLElement ? html : html?.[0];
+  if (!root) return;
+
+  root.querySelectorAll(HEADER_PILL_SELECTOR).forEach((pill) => {
+    pill.title = pill.textContent.trim();
+  });
+}
+
+Hooks.on("renderActorSheet", (app, html) => {
+  updateHealthBar(app, html);
+  updatePillTooltips(app, html);
+});
 
 Hooks.once("init", () => {
   game.settings.register(MODULE_ID, SETTING_KEY, {

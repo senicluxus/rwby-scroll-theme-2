@@ -438,19 +438,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor:has(.ch
   min-width: 700px !important;
 }
 
-/* ---------- Let the Soak box shrink like Wounds/Strain/Defense (Mandar-only) ----------
-   Wounds/Strain/Defense show two inputs side by side in a grid that's
-   allowed to shrink to nothing; Soak's single input is missing that same
-   allowance, so it refuses to shrink and pushes Defense off the edge as
-   the sheet narrows. min-width:0 gives it the same permission. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single .attribute,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single .block-attribute,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single .block-value,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .resource.single input {
-  min-width: 0 !important;
-}
-
 /* ---------- Picture frame: fixed square matching the name/details box (Mandar-only) ----------
    Mandar's own .header-description-block (name + species/career/etc.) is a
    fixed 170px tall, so the portrait is set to match that as a square
@@ -660,10 +647,14 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
 /* ---------- Tighter label columns (Mandar-only) ----------
    The label column (Species/Specs/Signature Abilities) shares its width
    with the longest label in it, leaving short ones with a big gap before
-   the pill. Shrinking it to just fit its text closes most of that gap. */
+   the pill. Shrinking it to just fit its text closes most of that gap.
+   (No explicit width here on purpose -- the grid column below is "auto",
+   which already sizes itself to just fit the label text on its own; a
+   fixed width like the old "1%" table-layout trick actively fights that
+   and, combined with the pill-cell clipping further down, was cutting
+   the labels themselves off.) */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table td:first-child,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table td:nth-child(3) {
-  width: 1% !important;
   white-space: nowrap !important;
   padding-right: 0.1rem !important;
 }
@@ -676,7 +667,13 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
    Role. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tbody {
   display: grid !important;
-  grid-template-columns: auto 1fr auto 1fr !important;
+  /* minmax(0, 1fr), not just 1fr: 1fr alone still refuses to shrink a
+     column smaller than the longest word sitting in it, which is what let
+     a long Background/Education/Role/Semblance name push the table wider
+     than the sheet. The 0 removes that floor -- see the ellipsis rule
+     below for what actually happens to that text once its column shrinks
+     past it. */
+  grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) !important;
   gap: 0.15rem !important;
   width: 100% !important;
 }
@@ -732,6 +729,18 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(3) td:nth-child(4) {
   display: none !important;
 }
+/* Only the 5 pill cells get the "okay to shrink and clip" treatment --
+   applying that to every cell (including the label cells above) is what
+   just cut the labels themselves down to a sliver, since their whole
+   look depends on being allowed to overflow their artificially small box. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(1) td:nth-child(2),
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(1) td:nth-child(4),
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(2),
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(4),
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(3) td:nth-child(2) {
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
 
 /* ---------- Character/minion name heading text & font (Mandar-only) ----------
    Mandar wraps the name field in an <h2> and colors it dark red; Default
@@ -773,6 +782,20 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   background: none !important;
   border: none !important;
   color: var(--rwby-text) !important;
+}
+/* A long Background/Education/Role/etc. name gets cut off with "..."
+   instead of stretching its column wider than the sheet. Hovering shows
+   the full name -- theme.js sets that up via a title attribute, since
+   plain CSS truncation has no way to reveal the rest of the text. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .specialization-pill,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .species-pill,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .career-pill,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .signatureability-pill,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .forcepower-pill {
+  display: block !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 /* Item-list pills elsewhere on the sheet are unrelated to the header and keep their box. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet .item-pill,
