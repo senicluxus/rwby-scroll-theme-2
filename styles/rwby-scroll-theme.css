@@ -91,6 +91,8 @@ body.rwby-scroll-theme {
   --rwby-license-title-size: 1.4rem;
   --rwby-license-nation-size: 0.85rem;  /* smaller font for the right-side "NATION" header */
   --rwby-license-row-gap: 0.9rem;    /* extra vertical space between the LN row and PLACE OF ISSUE row */
+  --rwby-license-photo-width: 16rem;  /* how wide the license photo box is, on the right of the fields */
+  --rwby-license-nation-gap: 0.75rem;  /* space between "STUDENT LICENSE" and "NATION" -- smaller number moves NATION further left */
 
   /* How tall the Strength/Flaw/Desire/Fear boxes are on the Biography tab
      (Mandar-only). This matches their original size on Basic Information --
@@ -1051,18 +1053,22 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   align-items: baseline !important;
   border-bottom: 2px solid var(--rwby-accent) !important;
   margin-bottom: 0.5rem !important;
+  min-width: 0 !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title {
   flex: 0 0 var(--rwby-license-title-width) !important;
   min-width: 0 !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation {
-  flex: 1 !important;
+  /* Sized to its own text instead of stretching to fill the rest of the
+     row -- that's what was pinning it hard against the right edge. This
+     way it just sits right after the title, shifted in from the edge. */
+  flex: 0 0 auto !important;
   min-width: 0 !important;
+  margin-left: var(--rwby-license-nation-gap) !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title input,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation input {
-  width: 100% !important;
   background: transparent !important;
   border: none !important;
   /* --rwby-font-body's first choice is our bundled Century Gothic font --
@@ -1074,12 +1080,31 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   color: var(--rwby-charname-heading) !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title input {
+  width: 100% !important;
   font-size: var(--rwby-license-title-size) !important;
   text-transform: uppercase !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation input {
+  /* Sized to fit "NATION" comfortably rather than stretching -- this is
+     what actually keeps it shifted left instead of hugging the far edge. */
+  width: 8rem !important;
   font-size: var(--rwby-license-nation-size) !important;
-  text-align: right !important;
+  text-align: left !important;
+}
+
+/* Whole license card: title+fields on the left, photo on the right,
+   stretched to match whichever side is taller (Mandar-only). */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-card {
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-left {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
 }
 
 /* License fields (NAME, LN, PLACE OF ISSUE, AUTHORITY, RESTRICTIONS), each
@@ -1087,7 +1112,22 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-fields {
   display: flex !important;
   flex-direction: column !important;
-  margin-bottom: 0.75rem !important;
+  min-width: 0 !important;
+}
+
+/* License photo -- click it to pick an image, same as the character
+   portrait. Spans the FULL height of the card (title row down through
+   the last field row), not just the fields. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-photo {
+  flex: 0 0 var(--rwby-license-photo-width) !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-photo img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  cursor: pointer !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row {
   display: flex !important;

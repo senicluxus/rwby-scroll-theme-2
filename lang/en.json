@@ -11,7 +11,8 @@
       "Number": "LN",
       "PlaceOfIssue": "PLACE OF ISSUE",
       "Authority": "AUTHORITY",
-      "Restrictions": "RESTRICTIONS"
+      "Restrictions": "RESTRICTIONS",
+      "Photo": "Click to set the license photo"
     }
   },
 
