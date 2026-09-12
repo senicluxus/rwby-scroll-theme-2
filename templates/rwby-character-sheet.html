@@ -216,47 +216,44 @@
 
     {{!-- General Tab (basic information) --}}
     <div class="tab general" data-group="primary" data-tab="general">
-      {{!-- License card (RWBY Scroll Theme): title+fields on the left, photo
-           on the right stretched to match their combined height, with
-           NATION sharing the top row with the title instead of its own
-           separate banner. --}}
-      <div class="rwby-license-card">
-        <div class="rwby-license-left">
-          <div class="rwby-license-header">
-            <div class="rwby-license-title">
-              <input type="text" name="flags.rwby-scroll-theme.licenseTitle" value="{{#if actor.flags.rwby-scroll-theme.licenseTitle}}{{actor.flags.rwby-scroll-theme.licenseTitle}}{{else}}STUDENT LICENSE{{/if}}" data-dtype="String" />
-            </div>
-            <div class="rwby-license-nation">
-              <input type="text" name="flags.rwby-scroll-theme.licenseNation" value="{{#if actor.flags.rwby-scroll-theme.licenseNation}}{{actor.flags.rwby-scroll-theme.licenseNation}}{{else}}NATION{{/if}}" data-dtype="String" />
-            </div>
-          </div>
-          <div class="rwby-license-fields">
-            <div class="rwby-license-row">
-              <label>{{localize "RWBY-SCROLL-THEME.License.Name"}}:</label>
-              <input type="text" name="flags.rwby-scroll-theme.licenseName" value="{{actor.flags.rwby-scroll-theme.licenseName}}" data-dtype="String" />
-            </div>
-            <div class="rwby-license-row">
-              <label>{{localize "RWBY-SCROLL-THEME.License.Number"}}:</label>
-              <input type="text" name="flags.rwby-scroll-theme.licenseNumber" value="{{actor.flags.rwby-scroll-theme.licenseNumber}}" data-dtype="String" />
-            </div>
-            <div class="rwby-license-row-gap"></div>
-            <div class="rwby-license-row">
-              <label>{{localize "RWBY-SCROLL-THEME.License.PlaceOfIssue"}}:</label>
-              <input type="text" name="flags.rwby-scroll-theme.licensePlaceOfIssue" value="{{actor.flags.rwby-scroll-theme.licensePlaceOfIssue}}" data-dtype="String" />
-            </div>
-            <div class="rwby-license-row">
-              <label>{{localize "RWBY-SCROLL-THEME.License.Authority"}}:</label>
-              <input type="text" name="flags.rwby-scroll-theme.licenseAuthority" value="{{actor.flags.rwby-scroll-theme.licenseAuthority}}" data-dtype="String" />
-            </div>
-            <div class="rwby-license-row">
-              <label>{{localize "RWBY-SCROLL-THEME.License.Restrictions"}}:</label>
-              <input type="text" name="flags.rwby-scroll-theme.licenseRestrictions" value="{{actor.flags.rwby-scroll-theme.licenseRestrictions}}" data-dtype="String" />
-            </div>
-          </div>
+      {{!-- License header (RWBY Scroll Theme): full width, above both the
+           photo and the fields. --}}
+      <div class="rwby-license-header">
+        <div class="rwby-license-title">
+          <input type="text" name="flags.rwby-scroll-theme.licenseTitle" value="{{#if actor.flags.rwby-scroll-theme.licenseTitle}}{{actor.flags.rwby-scroll-theme.licenseTitle}}{{else}}STUDENT LICENSE{{/if}}" data-dtype="String" />
         </div>
-        {{!-- License photo -- click it to pick an image, just like the portrait (RWBY Scroll Theme) --}}
+        <div class="rwby-license-nation">
+          <input type="text" name="flags.rwby-scroll-theme.licenseNation" value="{{#if actor.flags.rwby-scroll-theme.licenseNation}}{{actor.flags.rwby-scroll-theme.licenseNation}}{{else}}NATION{{/if}}" data-dtype="String" />
+        </div>
+      </div>
+      {{!-- License card: photo on the left, fields on the right (RWBY Scroll Theme). --}}
+      <div class="rwby-license-card">
+        {{!-- License photo -- click it to pick an image, just like the portrait --}}
         <div class="rwby-license-photo">
           <img src="{{#if actor.flags.rwby-scroll-theme.licensePhoto}}{{actor.flags.rwby-scroll-theme.licensePhoto}}{{else}}icons/svg/mystery-man.svg{{/if}}" data-edit="flags.rwby-scroll-theme.licensePhoto" title="{{localize 'RWBY-SCROLL-THEME.License.Photo'}}" />
+        </div>
+        <div class="rwby-license-fields">
+          <div class="rwby-license-row">
+            <label>{{localize "RWBY-SCROLL-THEME.License.Name"}}:</label>
+            <input type="text" name="flags.rwby-scroll-theme.licenseName" value="{{#if actor.flags.rwby-scroll-theme.licenseName}}{{actor.flags.rwby-scroll-theme.licenseName}}{{else}}LAST, FIRST{{/if}}" data-dtype="String" />
+          </div>
+          <div class="rwby-license-row">
+            <label>{{localize "RWBY-SCROLL-THEME.License.Number"}}:</label>
+            <input type="text" name="flags.rwby-scroll-theme.licenseNumber" value="{{#if actor.flags.rwby-scroll-theme.licenseNumber}}{{actor.flags.rwby-scroll-theme.licenseNumber}}{{else}}XXXXXX-XXXXX-XXXXX{{/if}}" data-dtype="String" />
+          </div>
+          <div class="rwby-license-row-gap"></div>
+          <div class="rwby-license-row">
+            <label>{{localize "RWBY-SCROLL-THEME.License.PlaceOfIssue"}}:</label>
+            <input type="text" name="flags.rwby-scroll-theme.licensePlaceOfIssue" value="{{#if actor.flags.rwby-scroll-theme.licensePlaceOfIssue}}{{actor.flags.rwby-scroll-theme.licensePlaceOfIssue}}{{else}}NATION{{/if}}" data-dtype="String" />
+          </div>
+          <div class="rwby-license-row">
+            <label>{{localize "RWBY-SCROLL-THEME.License.Authority"}}:</label>
+            <input type="text" name="flags.rwby-scroll-theme.licenseAuthority" value="{{#if actor.flags.rwby-scroll-theme.licenseAuthority}}{{actor.flags.rwby-scroll-theme.licenseAuthority}}{{else}}SCHOOL{{/if}}" data-dtype="String" />
+          </div>
+          <div class="rwby-license-row">
+            <label>{{localize "RWBY-SCROLL-THEME.License.Restrictions"}}:</label>
+            <input type="text" name="flags.rwby-scroll-theme.licenseRestrictions" value="{{#if actor.flags.rwby-scroll-theme.licenseRestrictions}}{{actor.flags.rwby-scroll-theme.licenseRestrictions}}{{else}}CLASS E{{/if}}" data-dtype="String" />
+          </div>
         </div>
       </div>
       <div class="grid grid-2col">

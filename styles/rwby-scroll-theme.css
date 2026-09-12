@@ -88,11 +88,14 @@ body.rwby-scroll-theme {
 
   /* ---- License card header, top of Basic Information tab (Mandar-only) ---- */
   --rwby-license-title-width: 75%;   /* how much of the row the left "STUDENT LICENSE" header takes up */
-  --rwby-license-title-size: 1.4rem;
-  --rwby-license-nation-size: 0.85rem;  /* smaller font for the right-side "NATION" header */
-  --rwby-license-row-gap: 0.9rem;    /* extra vertical space between the LN row and PLACE OF ISSUE row */
-  --rwby-license-photo-width: 16rem;  /* how wide the license photo box is, on the right of the fields */
+  --rwby-license-title-size: 2.2rem;
+  --rwby-license-nation-size: 2rem;  /* smaller font for the right-side "NATION" header */
+  --rwby-license-row-gap: 2rem;    /* extra vertical space between the LN row and PLACE OF ISSUE row */
+  --rwby-license-fields-top: 2rem;   /* pushes NAME/LN/etc down from the top of the license card -- bigger number = further down */
+  --rwby-license-field-size: 1.5rem;   /* text size for the NAME/LN/PLACE OF ISSUE/AUTHORITY/RESTRICTIONS labels and typed text (not the STUDENT LICENSE/NATION headers) */
+  --rwby-license-photo-width: 15rem;  /* how wide the license photo box is, on the right of the fields */
   --rwby-license-nation-gap: 0.75rem;  /* space between "STUDENT LICENSE" and "NATION" -- smaller number moves NATION further left */
+  --rwby-license-header-divider: 0px solid var(--rwby-accent);  /* line under STUDENT LICENSE/NATION -- set to "none" to turn it off */
 
   /* How tall the Strength/Flaw/Desire/Fear boxes are on the Biography tab
      (Mandar-only). This matches their original size on Basic Information --
@@ -121,7 +124,7 @@ body.rwby-scroll-theme {
      Separate stacks for body text and the name-field heading, so the name
      field can look different without touching the rest of the sheet. */
   --rwby-font-body: "Century Gothic", "Roboto", sans-serif;
-  --rwby-font-heading: "Elektra", "Century Gothic", sans-serif;
+  --rwby-font-heading: "Century Gothic", "Elektra", sans-serif;
 }
 
 /* ---------- Page background (tileable scroll art) ----------
@@ -283,6 +286,7 @@ body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .chara
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .header-name input,
 body.rwby-scroll-theme .starwarsffg .minion .minion-name input {
   font-family: var(--rwby-font-heading);
+  font-weight: bold !important;
 }
 
 /* ---------- Character name field focus glow (kept separate from the
@@ -537,12 +541,24 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   padding-left: 0 !important;
 }
 
-/* ---------- Characteristics/Skills tab: remove the translucent white panel + fading line (Mandar-only) ----------
-   mandar.css's wash + line on .sheet-body covers every tab, but only looks
-   out of place on Characteristics (open space around the circles/skill
-   grid). :has() scopes the removal to just that tab. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body:has(.tab.characteristics.active) {
+/* ---------- Every tab: remove the translucent white panel (Mandar-only) ----------
+   mandar.css washes the whole sheet-body with a translucent white
+   background on every tab. This turns that off everywhere, but leaves
+   mandar's own fading divider line (border-top/border-image, just below
+   the wash) alone -- just recolored to match our theme -- so that line
+   still shows at the top of every tab. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body {
   background: transparent !important;
+  border-image: linear-gradient(to right, rgba(59, 174, 187, 0), #3baebb, rgba(59, 174, 187, 0)) 5% !important;
+}
+
+/* ---------- Hide that divider line on a few tabs where it looks out of
+   place (Characteristics, Critical Injuries, Obligation/Duty/Morality,
+   Active Effects) (Mandar-only) ---------- */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body:has(.tab.characteristics.active),
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body:has(.tab.crits.active),
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body:has(.tab.obligation.active),
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body:has(.tab.effects.active) {
   border-top: none !important;
   border-image: none !important;
 }
@@ -1051,7 +1067,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   display: flex !important;
   flex-wrap: nowrap !important;
   align-items: baseline !important;
-  border-bottom: 2px solid var(--rwby-accent) !important;
+  border-bottom: var(--rwby-license-header-divider) !important;
   margin-bottom: 0.5rem !important;
   min-width: 0 !important;
 }
@@ -1069,20 +1085,29 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title input,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation input {
+  /* Foundry's own default look for a text box is a faint dark tint plus a
+     subtle inset shadow -- clearing just "background" still leaves that
+     shadow visible, so both are reset here to make it fully invisible as
+     a box. */
   background: transparent !important;
+  box-shadow: none !important;
   border: none !important;
   /* --rwby-font-body's first choice is our bundled Century Gothic font --
      using that instead of --rwby-font-heading guarantees Century Gothic
      specifically, rather than risking Elektra if a player happens to have
      it installed. */
   font-family: var(--rwby-font-body) !important;
-  font-weight: bold !important;
   color: var(--rwby-charname-heading) !important;
+  /* Extra room above/below the text itself -- without this the browser's
+     default line-height is too tight for the bigger font sizes below and
+     clips the bottom of the letters. */
+  line-height: 1.3 !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title input {
   width: 100% !important;
   font-size: var(--rwby-license-title-size) !important;
   text-transform: uppercase !important;
+  font-weight: bold !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation input {
   /* Sized to fit "NATION" comfortably rather than stretching -- this is
@@ -1090,29 +1115,32 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   width: 8rem !important;
   font-size: var(--rwby-license-nation-size) !important;
   text-align: left !important;
+  text-transform: uppercase !important;
+  font-weight: normal !important;
 }
 
-/* Whole license card: title+fields on the left, photo on the right,
-   stretched to match whichever side is taller (Mandar-only). */
+/* License card: photo on the left, fields on the right, stretched to
+   match whichever side is taller (Mandar-only). */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-card {
   display: flex !important;
-  align-items: stretch !important;
+  /* flex-start instead of stretch -- with stretch, pushing the fields
+     down (or anything else that makes that side taller) also stretched
+     the photo taller to match. This keeps the photo at its own fixed
+     size no matter what the fields side does. */
+  align-items: flex-start !important;
   gap: 0.75rem !important;
   margin-bottom: 0.75rem !important;
 }
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-left {
+
+/* License fields (NAME, LN, PLACE OF ISSUE, AUTHORITY, RESTRICTIONS), each
+   its own row, with one extra gap between LN and PLACE OF ISSUE. Grows to
+   fill whatever room is left beside the photo. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-fields {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 1 auto !important;
   min-width: 0 !important;
-}
-
-/* License fields (NAME, LN, PLACE OF ISSUE, AUTHORITY, RESTRICTIONS), each
-   its own row, with one extra gap between LN and PLACE OF ISSUE. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-fields {
-  display: flex !important;
-  flex-direction: column !important;
-  min-width: 0 !important;
+  padding-top: var(--rwby-license-fields-top) !important;
 }
 
 /* License photo -- click it to pick an image, same as the character
@@ -1120,6 +1148,10 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
    the last field row), not just the fields. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-photo {
   flex: 0 0 var(--rwby-license-photo-width) !important;
+  /* Fixes the box's height to match a 626x850 ID photo's own proportions,
+     based purely on its width -- so its size no longer depends at all on
+     how tall the fields column next to it happens to be. */
+  aspect-ratio: 626 / 850 !important;
   border: none !important;
   overflow: hidden !important;
 }
@@ -1129,6 +1161,14 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   object-fit: cover !important;
   cursor: pointer !important;
 }
+/* Divider between the license card and the Gender/Age/Notable Features
+   section below it. Same look as the license header line, but always on --
+   it has no on/off knob of its own. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-card + .grid.grid-2col {
+  border-top: 2px solid var(--rwby-accent) !important;
+  padding-top: 0.75rem !important;
+  margin-top: 0.25rem !important;
+}
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row {
   display: flex !important;
   align-items: center !important;
@@ -1137,18 +1177,29 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row label {
   flex: 0 0 auto !important;
+  font-size: var(--rwby-license-field-size) !important;
   font-weight: bold !important;
   color: var(--rwby-text) !important;
   white-space: nowrap !important;
+  color: var(--rwby-charname-heading) !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row input {
   flex: 1 !important;
   min-width: 0 !important;
+  font-size: var(--rwby-license-field-size) !important;
+  /* Foundry's own default look for a text box is a faint dark tint plus a
+     subtle inset shadow -- clearing just "background" still leaves that
+     shadow visible, so both are reset here to make it fully invisible as
+     a box. */
   background: transparent !important;
+  box-shadow: none !important;
   border: none !important;
-  border-bottom: 1px solid var(--rwby-accent) !important;
+  /* No underline either -- just the typed text, nothing marking it as a
+     fillable box. */
+  border-bottom: none !important;
   color: var(--rwby-text) !important;
   font-family: var(--rwby-font-body) !important;
+  text-transform: uppercase !important
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row-gap {
   height: var(--rwby-license-row-gap) !important;
