@@ -161,6 +161,46 @@ Hooks.on("renderActorSheet", (app, html) => {
   updatePillTooltips(app, html);
 });
 
+/**
+ * Chat button strip (Mandar-only). Foundry gives the row holding the
+ * roll-type buttons and the save/delete buttons no dependable name, so this
+ * finds it -- the smallest box holding both the globe (public roll) and
+ * trash icons -- and tags it so our CSS can give it its own background.
+ */
+const CHAT_STRIP_CLASS = "rwby-chat-controls";
+
+function tagChatControls() {
+  if (!document.body.classList.contains(MANDAR_THEME_CLASS)) return;
+  const chat = document.querySelector("#chat");
+  if (!chat) return;
+  // Skip icons inside the message list -- every chat message has its own
+  // little trash icon, which used to get picked instead of the real one.
+  const notInMessages = (el) => !el.closest("#chat-log, .chat-message");
+  const globe = [...chat.querySelectorAll(".fa-globe")].find(notInMessages);
+  const trash = [...chat.querySelectorAll(".fa-trash")].find(notInMessages);
+  if (!globe || !trash) return;
+
+  let strip = globe.parentElement;
+  while (strip && !strip.contains(trash)) strip = strip.parentElement;
+  // Safety: skip if we landed on something too big (the whole chat or the typing box's area).
+  if (!strip || strip === chat || strip.querySelector("textarea")) return;
+  if (!strip.classList.contains(CHAT_STRIP_CLASS)) strip.classList.add(CHAT_STRIP_CLASS);
+}
+
+// Chat re-draws now and then, so re-check whenever the page changes (once per frame at most).
+let chatTagQueued = false;
+function watchChatControls() {
+  tagChatControls();
+  new MutationObserver(() => {
+    if (chatTagQueued) return;
+    chatTagQueued = true;
+    requestAnimationFrame(() => {
+      chatTagQueued = false;
+      tagChatControls();
+    });
+  }).observe(document.body, { childList: true, subtree: true });
+}
+
 Hooks.once("init", () => {
   game.settings.register(MODULE_ID, SETTING_KEY, {
     name: "RWBY-SCROLL-THEME.SettingName",
@@ -182,4 +222,5 @@ Hooks.once("ready", () => {
   // including the starwarsffg "init" hook that injects mandar.css when
   // Mandar is selected -- so it's safe to detect it and reorder here.
   applyBodyTheme(game.settings.get(MODULE_ID, SETTING_KEY));
+  watchChatControls();
 });

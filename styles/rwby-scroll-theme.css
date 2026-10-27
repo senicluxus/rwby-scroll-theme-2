@@ -103,6 +103,26 @@ body.rwby-scroll-theme {
   /* Color of the header bars on the Force Power (Team Attack) and Signature Ability (Semblance) item sheets -- the big one at the top and the small ones on each upgrade box. Default matches the other talent headers. */
   --rwby-power-header-bg: var(--rwby-plate-bg);
 
+  /* ---- Chat sidebar (Mandar-only) ----
+     Each "-bg" knob takes any CSS background value. The checkerboards are temporary placeholders showing where each piece of art goes. When art is ready, swap in something like: url("../assets/chat-bg.png") center / cover no-repeat */
+  --rwby-chat-bg: url("../assets/scroll-chat-bg.png") center / 313px auto;  /* the whole chat panel, behind the messages */
+  --rwby-chat-bottom-bg: url("../assets/scroll-bottom-bg.png") center / 313px auto;  /* the "scroll" block across the bottom of the chat, behind the buttons and typing box */
+  --rwby-chat-bottom-height: 13rem;  /* how tall that block is, measured up from the bottom of the chat -- make it taller to cover more of the panel */
+  --rwby-chat-controls-height: 0rem;  /* minimum height of the row of roll-type/save/delete buttons -- 0 keeps them snug above the typing box; bigger moves them up */
+  --rwby-chat-input-bg: url("../assets/scroll-bg-nohex.png") center / auto;  /* the box you type in */
+  --rwby-chat-input-color: #fffdfa;  /* typed text and the "Enter message" hint */
+  --rwby-chat-input-height: 6rem;  /* how tall the typing box is */
+  --rwby-chat-message-bg: transparent;  /* background of each chat message and roll result -- transparent = none; any color or image works */
+  --rwby-chat-message-color: #000000;  /* text color of the message, the sender's name, the time sent, and the trash icon */
+  --rwby-chat-message-border: none;  /* border around each chat message -- none = no border; or something like 1px solid #ffffff */
+  --rwby-chat-jump-x: 0px;  /* nudges the "jump to latest message" arrow button sideways -- negative = left, positive = right */
+  --rwby-chat-jump-y: -1rem;  /* nudges that arrow button up or down -- negative = up, positive = down */
+  --rwby-chat-button-bg: transparent;  /* background of the roll-type/save/delete buttons -- transparent = none; any color works */
+  --rwby-chat-roll-bg: transparent;  /* background of the roll result box (the tan one holding the dice) -- transparent = none; any color or image works */
+  --rwby-chat-roll-border: none;  /* border around the roll result box -- none = no border; or something like 1px solid #ffffff */
+  --rwby-chat-sender-size: 1.3rem;  /* font size of the sender's name only (Gamemaster, character name) -- bigger number = bigger name */
+  --rwby-chat-font: var(--rwby-font-body);  /* font for chat messages, names, times, and the typing box (same Century Gothic as the character sheet) -- icons and dice symbols keep their own fonts */
+
   /* How tall the Strength/Flaw/Desire/Fear boxes are on the Biography tab
      (Mandar-only). This matches their original size on Basic Information --
      bigger number = taller boxes. */
@@ -1268,4 +1288,138 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   overflow: auto !important;
   width: 100% !important;
   height: 100% !important;
+}
+
+
+/* ---------- Chat sidebar (Mandar-only) ----------
+   The chat isn't part of a character sheet, so it has its own selectors.
+   Colors, art, and sizes all come from the --rwby-chat-* knobs at the top. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat {
+  background: var(--rwby-chat-bg) !important;
+}
+/* Let the panel art show through behind the list of messages. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-log {
+  background: transparent !important;
+}
+/* Each chat message / roll result: background, border, and base text color.
+   Several selectors are listed because Foundry's exact message markup can
+   vary. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-log .message {
+  background: var(--rwby-chat-message-bg) !important;
+  border: var(--rwby-chat-message-border) !important;
+  box-shadow: none !important;
+  color: var(--rwby-chat-message-color) !important;
+}
+/* Foundry paints some parts of a message itself (the header strip, the
+   body), so those are cleared too. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-header,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-content,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-header,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-content {
+  background: transparent !important;
+  color: var(--rwby-chat-message-color) !important;
+}
+/* Sender name, time sent, flavor text, and the trash icon. These set their
+   own colors, so each is named here. (Dice symbols and other special
+   colors inside the message body are left alone.) */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-sender,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-timestamp,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-metadata,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .flavor-text,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-delete,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-delete i,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .fa-trash,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-sender,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-timestamp,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-metadata,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .flavor-text,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-delete,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-delete i,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .fa-trash {
+  color: var(--rwby-chat-message-color) !important;
+}
+/* The "scroll" block across the bottom of the chat, full width, sitting on
+   top of the panel art but behind the buttons, typing box, and messages.
+   It's drawn as a layer of #chat itself (z-index -1 keeps it underneath
+   everything else), so the panel's repeating background is not affected. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat {
+  position: relative !important;
+  isolation: isolate !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: var(--rwby-chat-bottom-height) !important;
+  background: var(--rwby-chat-bottom-bg) !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+}
+/* The row with the roll-type buttons (public/private/etc.) and the
+   save/delete buttons. theme.js tags it with the rwby-chat-controls class
+   because Foundry gives it no dependable name of its own. It has no
+   background of its own now -- the block above shows through behind it. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .rwby-chat-controls,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-controls {
+  background: transparent !important;
+  min-height: var(--rwby-chat-controls-height) !important;
+  box-sizing: border-box !important;
+  align-items: center !important;
+}
+/* The box you type in. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-form textarea,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-message {
+  background: var(--rwby-chat-input-bg) !important;
+  color: var(--rwby-chat-input-color) !important;
+  min-height: var(--rwby-chat-input-height) !important;
+}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-form textarea::placeholder,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-message::placeholder {
+  color: var(--rwby-chat-input-color) !important;
+  opacity: 0.7 !important;
+}
+/* The "jump to latest message" arrow button that appears when you scroll
+   up. "translate" shifts it from wherever Foundry puts it, using the
+   --rwby-chat-jump-x / -y knobs at the top. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .jump-to-bottom,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat [data-action="jumpToBottom"] {
+  translate: var(--rwby-chat-jump-x) var(--rwby-chat-jump-y) !important;
+}
+
+/* Clear the grey off the roll-type/save/delete buttons. Icons are untouched.
+   The currently selected roll type is skipped so you can still tell which is on. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .rwby-chat-controls :is(button, a, label, select, div, fieldset, span):not(.active):not(.selected):not([aria-pressed="true"]):not([aria-checked="true"]) {
+  background: var(--rwby-chat-button-bg) !important;
+  box-shadow: none !important;
+}
+
+/* The tan box around a roll result. Only the box is cleared; the dice
+   symbols inside are left alone. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .dice-roll,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .starwarsffg.dice-roll {
+  background: var(--rwby-chat-roll-bg) !important;
+  border: var(--rwby-chat-roll-border) !important;
+  box-shadow: none !important;
+}
+/* Bigger font for the sender's name only. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-sender,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-sender {
+  font-size: var(--rwby-chat-sender-size) !important;
+}
+
+/* Chat text uses the same font as the character sheet. Listed by part
+   (not "everything") so icons and dice symbols keep their own fonts. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .message-content,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .message-sender,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .message-timestamp,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .flavor-text,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-message,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-form textarea {
+  font-family: var(--rwby-chat-font) !important;
 }
