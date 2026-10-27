@@ -30,6 +30,34 @@ class RwbyCharacterSheetV2 extends ActorSheetFFGV2 {
   get template() {
     return "modules/rwby-scroll-theme/templates/rwby-character-sheet.html";
   }
+
+  // Replaces the system's even-split skill columns: General skills go in
+  // the left column, every other category goes in the right column.
+  _createSkillColumns(data) {
+    const cols = [[], []];
+    const useLabelSort = game.settings.get("starwarsffg", "skillSorting");
+
+    // Same sorting the system uses: by label if that setting is on, otherwise by name.
+    const sortFunction = useLabelSort
+      ? (a, b) => data.data.skills[a].label.localeCompare(data.data.skills[b].label, game.i18n.lang)
+      : (a, b) => {
+          if (a.toLowerCase() > b.toLowerCase()) return 1;
+          if (a.toLowerCase() < b.toLowerCase()) return -1;
+          return 0;
+        };
+
+    data.data.skilltypes.forEach((type) => {
+      const column = type.type === "General" ? 0 : 1;
+      const skills = Object.keys(data.data.skills)
+        .filter((s) => data.data.skills[s].type === type.type)
+        .sort(sortFunction);
+
+      cols[column].push({ id: "header", ...type });
+      skills.forEach((s) => cols[column].push({ name: s, ...data.data.skills[s] }));
+    });
+
+    return cols;
+  }
 }
 
 // Wait for "ready" so we register after the system sets up its own sheets --

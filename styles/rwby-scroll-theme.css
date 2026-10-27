@@ -95,7 +95,13 @@ body.rwby-scroll-theme {
   --rwby-license-field-size: 1.5rem;   /* text size for the NAME/LN/PLACE OF ISSUE/AUTHORITY/RESTRICTIONS labels and typed text (not the STUDENT LICENSE/NATION headers) */
   --rwby-license-photo-width: 15rem;  /* how wide the license photo box is, on the right of the fields */
   --rwby-license-nation-gap: 0.75rem;  /* space between "STUDENT LICENSE" and "NATION" -- smaller number moves NATION further left */
-  --rwby-license-header-divider: 0px solid var(--rwby-accent);  /* line under STUDENT LICENSE/NATION -- set to "none" to turn it off */
+  --rwby-license-header-divider: 2px solid var(--rwby-accent);  /* line under STUDENT LICENSE/NATION -- set to "none" to turn it off */
+
+  /* How much of the sheet's height the header + tab bar use up, so the tab area below fits the window exactly. If the bottom is still cut off, make this number bigger; if there's empty space at the bottom, make it smaller. */
+  --rwby-sheet-body-offset: 19rem;
+
+  /* Color of the header bars on the Force Power (Team Attack) and Signature Ability (Semblance) item sheets -- the big one at the top and the small ones on each upgrade box. Default matches the other talent headers. */
+  --rwby-power-header-bg: var(--rwby-plate-bg);
 
   /* How tall the Strength/Flaw/Desire/Fear boxes are on the Biography tab
      (Mandar-only). This matches their original size on Basic Information --
@@ -541,6 +547,15 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   padding-left: 0 !important;
 }
 
+/* ---------- Tab area height: stop the bottom from being cut off (Mandar-only) ----------
+   mandar.css sizes the tab area as "100% minus 15.75rem", assuming its own
+   header height. Our header has extra padding, so the tab area ended up
+   taller than the window and its bottom got clipped. This swaps in a
+   number we can tune. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body {
+  height: calc(100% - var(--rwby-sheet-body-offset)) !important;
+}
+
 /* ---------- Every tab: remove the translucent white panel (Mandar-only) ----------
    mandar.css washes the whole sheet-body with a translucent white
    background on every tab. This turns that off everywhere, but leaves
@@ -919,6 +934,14 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .talent-background.
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .talent-background .talent-header div input[type=text] {
   background-color: var(--rwby-plate-bg) !important;
   color: var(--rwby-highlight) !important;
+}
+/* Force Power and Signature Ability item sheets (plus the Character
+   Creator's Force Power summary) set their own dark green / dark red
+   header color, which the rules above don't reach. This uses one knob. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-forcepower .talent-background .talent-header,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-signatureability .talent-background .talent-header,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .forcePower-summary .talent-background .talent-header {
+  background-color: var(--rwby-power-header-bg) !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .talent-background {
   background-color: var(--rwby-panel-bg) !important;
