@@ -1,15 +1,5 @@
-/* =========================================================================
-   RWBY Scroll Theme for Star Wars FFG
+/* RWBY Scroll Theme. The first half skins any UI theme; the Mandar half uses !important because mandar.css loads later. */
 
-   Part 1 (below) is the base skin -- works under either UI theme, no
-   !important. Part 2 (bottom of file) is a Mandar-only hardening pass using
-   !important, since mandar.css loads after this file and can out-specify it.
-   ========================================================================= */
-
-/* ---------- Custom font: Century Gothic ----------
-   Registers the font; normal and bold are separate files so bold text
-   doesn't just get fake-stretched. Applied further down via
-   --rwby-font-body / --rwby-font-heading. */
 @font-face {
   font-family: "Century Gothic";
   src: url("../fonts/centurygothic.ttf") format("truetype");
@@ -24,185 +14,118 @@
 }
 
 body.rwby-scroll-theme {
-  --rwby-page-bg: #f4ecd8;       /* page background base color f4ecd8 */
-  --rwby-panel-bg: #42C3D1; /* block-background panels 42C3D1 */
-  --rwby-text: #2a2113;             /* primary text 2a2113 */
-  --rwby-text-secondary: #ff0051;        /* secondary text 4a3c26 */
-  --rwby-accent: #3baebb;            /* borders, static accents 3baebb */
-  --rwby-highlight: #fffdfa;     /* focus glow, header/label text fffdfa */
-  --rwby-accent-deep: #8a6a1f;       /* borders on dark plates 8a6a1f */
-  --rwby-plate-bg: #3baebb;      /* "bound edge" dark plates (headers, labels) 3baebb */
-  --rwby-plate-bg-light: #ded0a4;     /* lighter plate for passive/secondary states ded0a4 */
-
-  /* Sidebar/nav-tab button color, kept separate from --rwby-text so
-     recoloring one doesn't move the other. */
-  --rwby-nav-color: #fffdfa;
-
-  /* Color of the active tab's label/icon, split from --rwby-highlight so
-     recoloring it doesn't also recolor header/label text elsewhere. */
+  /* Colors */
+  --rwby-page-bg: #f4ecd8;
+  --rwby-panel-bg: #42C3D1;
+  --rwby-text: #2a2113;
+  --rwby-text-secondary: #ff0051;
+  --rwby-accent: #3baebb;
+  --rwby-highlight: #fffdfa;  /* header/label text, focus glow */
+  --rwby-accent-deep: #8a6a1f;
+  --rwby-plate-bg: #3baebb;  /* header and label bars */
+  --rwby-plate-bg-light: #ded0a4;  /* passive talent headers */
+  --rwby-nav-color: #fffdfa;  /* tab icons */
   --rwby-tab-active-color: #ebe309;
-
-  /* Background behind each characteristic circle (Mandar). Defaults to
-     --rwby-panel-bg so it matches automatically. */
   --rwby-characteristic-bg: var(--rwby-panel-bg);
-
-  /* Text color of the name field's heading bar (Mandar wraps it in an
-     <h2>; Default doesn't, so this only takes effect there). White by
-     request. */
-  --rwby-charname-heading: #fffdfa;
-
-  /* Focus glow for the name field only, separate from --rwby-highlight
-     so focusing it doesn't wash its own white text out. */
+  --rwby-charname-heading: #fffdfa;  /* name bar text */
   --rwby-charname-focus-glow: rgba(255, 213, 0, 0.35);
 
-  /* ---- Item name ("charname") text color, one per item type ----
-     --rwby-charname-base is the fallback for any type without its own
-     line below. */
+  /* Item name colors by type; base is the fallback */
   --rwby-charname-base: black;
   --rwby-charname-weapon: #134103;
-  --rwby-charname-gear: #0b4a50;              /* was purple (#2c0344); changed by request */
+  --rwby-charname-gear: #0b4a50;
   --rwby-charname-talent: #821517;
   --rwby-charname-vehicle-weapon: #1f1c37;
   --rwby-charname-vehicle-attachment: #c87b4d;
   --rwby-charname-criticalinjury: #830707;
   --rwby-charname-modifiers: #2c0344;
 
-  /* Color of the Wizard's plus/minus/edit/trash icons (Mandar-only).
-     Only the resting color changes -- hover keeps mandar.css's own
-     green/red/blue. */
-  --rwby-icon-color: black;
-
-  /* Radius of the rounded top-left corner, reused as the header's inward
-     content padding so both stay in sync. */
-  --rwby-corner-radius: 28px;
-
-  /* How far the Team Attacks column (label + pills, right of the
-     divider line) sits from that divider (Mandar-only). Smaller number
-     = text sits closer to the line. */
-  --rwby-team-attacks-gap: 0.5rem;
-
-  /* How far the whole name/details block (name field, Archetype/Career/
-     Role/Semblance table, all of it) is pushed right, away from the
-     picture (Mandar-only). Bigger number = more gap. */
-  --rwby-details-indent: 4rem;
-
-  /* ---- License card header, top of Basic Information tab (Mandar-only) ---- */
-  --rwby-license-title-width: 75%;   /* how much of the row the left "STUDENT LICENSE" header takes up */
-  --rwby-license-title-size: 2.2rem;
-  --rwby-license-nation-size: 2rem;  /* smaller font for the right-side "NATION" header */
-  --rwby-license-row-gap: 2rem;    /* extra vertical space between the LN row and PLACE OF ISSUE row */
-  --rwby-license-fields-top: 2rem;   /* pushes NAME/LN/etc down from the top of the license card -- bigger number = further down */
-  --rwby-license-field-size: 1.5rem;   /* text size for the NAME/LN/PLACE OF ISSUE/AUTHORITY/RESTRICTIONS labels and typed text (not the STUDENT LICENSE/NATION headers) */
-  --rwby-license-photo-width: 15rem;  /* how wide the license photo box is, on the right of the fields */
-  --rwby-license-nation-gap: 0.75rem;  /* space between "STUDENT LICENSE" and "NATION" -- smaller number moves NATION further left */
-  --rwby-license-header-divider: 2px solid var(--rwby-accent);  /* line under STUDENT LICENSE/NATION -- set to "none" to turn it off */
-
-  /* How much of the sheet's height the header + tab bar use up, so the tab area below fits the window exactly. If the bottom is still cut off, make this number bigger; if there's empty space at the bottom, make it smaller. */
-  --rwby-sheet-body-offset: 19rem;
-
-  /* Color of the header bars on the Force Power (Team Attack) and Signature Ability (Semblance) item sheets -- the big one at the top and the small ones on each upgrade box. Default matches the other talent headers. */
-  --rwby-power-header-bg: var(--rwby-plate-bg);
-
-  /* ---- Chat sidebar (Mandar-only) ----
-     Each "-bg" knob takes any CSS background value. The checkerboards are temporary placeholders showing where each piece of art goes. When art is ready, swap in something like: url("../assets/chat-bg.png") center / cover no-repeat */
-  --rwby-chat-bg: url("../assets/scroll-chat-bg.png") center / 313px auto;  /* the whole chat panel, behind the messages */
-  --rwby-chat-bottom-bg: url("../assets/scroll-bottom-bg.png") center / 313px auto;  /* the "scroll" block across the bottom of the chat, behind the buttons and typing box */
-  --rwby-chat-bottom-height: 13rem;  /* how tall that block is, measured up from the bottom of the chat -- make it taller to cover more of the panel */
-  --rwby-chat-controls-height: 0rem;  /* minimum height of the row of roll-type/save/delete buttons -- 0 keeps them snug above the typing box; bigger moves them up */
-  --rwby-chat-input-bg: url("../assets/scroll-bg-nohex.png") center / auto;  /* the box you type in */
-  --rwby-chat-input-color: #fffdfa;  /* typed text and the "Enter message" hint */
-  --rwby-chat-input-height: 6rem;  /* how tall the typing box is */
-  --rwby-chat-message-bg: transparent;  /* background of each chat message and roll result -- transparent = none; any color or image works */
-  --rwby-chat-message-color: #000000;  /* text color of the message, the sender's name, the time sent, and the trash icon */
-  --rwby-chat-message-border: none;  /* border around each chat message -- none = no border; or something like 1px solid #ffffff */
-  --rwby-chat-jump-x: 0px;  /* nudges the "jump to latest message" arrow button sideways -- negative = left, positive = right */
-  --rwby-chat-jump-y: -1rem;  /* nudges that arrow button up or down -- negative = up, positive = down */
-  --rwby-chat-button-bg: transparent;  /* background of the roll-type/save/delete buttons -- transparent = none; any color works */
-  --rwby-chat-roll-bg: transparent;  /* background of the roll result box (the tan one holding the dice) -- transparent = none; any color or image works */
-  --rwby-chat-roll-border: none;  /* border around the roll result box -- none = no border; or something like 1px solid #ffffff */
-  --rwby-chat-sender-size: 1.3rem;  /* font size of the sender's name only (Gamemaster, character name) -- bigger number = bigger name */
-  --rwby-chat-font: var(--rwby-font-body);  /* font for chat messages, names, times, and the typing box (same Century Gothic as the character sheet) -- icons and dice symbols keep their own fonts */
-
-  /* How tall the Strength/Flaw/Desire/Fear boxes are on the Biography tab
-     (Mandar-only). This matches their original size on Basic Information --
-     bigger number = taller boxes. */
-  --rwby-bio-motivation-height: 6rem;
-
-  /* How wide the row of Strength/Flaw/Desire/Fear boxes is, as a percent
-     of the space available on the Biography tab (Mandar-only). 100% is as
-     wide as it can go -- each of the two boxes is always half of this. */
+  /* Character sheet layout (Mandar) */
+  --rwby-icon-color: black;  /* Wizard plus/minus/edit/trash icons */
+  --rwby-corner-radius: 28px;  /* rounded top-left corner; also the header padding */
+  --rwby-team-attacks-gap: 0.5rem;  /* space between the divider and Team Attacks */
+  --rwby-details-indent: 4rem;  /* pushes the name/details block away from the portrait */
+  --rwby-sheet-body-offset: 19rem;  /* header + tab bar height; raise it if the bottom is cut off */
+  --rwby-power-header-bg: var(--rwby-plate-bg);  /* Force Power / Signature Ability header bars */
+  --rwby-bio-motivation-height: 6rem;  /* Strength/Flaw/Desire/Fear boxes */
   --rwby-bio-motivation-width: 100%;
 
-  /* ---- Wounds health bar, left of the portrait (Mandar-only) ----
-     theme.js sorts health into one of these three bands (healthy/wounded/
-     critical) each render and picks the matching color -- no in-between
-     blending. Full health fills the whole bar; it drains from the top
-     down, staying anchored to the bottom, as wounds increase. */
-  --rwby-health-full: #25FF00;     /* healthy: 66% health or above */
-  --rwby-health-wounded: #FFC047;  /* wounded: between 33% and 66% */
-  --rwby-health-empty: red;    /* critical: 33% health or below */
-  --rwby-healthbar-thickness: 22px;  /* the bar's short dimension (width, since it's vertical) */
-  --rwby-healthbar-gap: -215px;    /* space between the portrait and the bar */
+  /* License card (Mandar) */
+  --rwby-license-title-width: 75%;  /* width of the "STUDENT LICENSE" header */
+  --rwby-license-title-size: 2.2rem;
+  --rwby-license-nation-size: 2rem;
+  --rwby-license-row-gap: 2rem;  /* extra space between the LN and PLACE OF ISSUE rows */
+  --rwby-license-fields-top: 2rem;  /* pushes the fields down from the top of the card */
+  --rwby-license-field-size: 1.5rem;  /* field labels and typed text */
+  --rwby-license-photo-width: 15rem;
+  --rwby-license-nation-gap: 0.75rem;  /* space between the title and NATION */
+  --rwby-license-header-divider: 2px solid var(--rwby-accent);  /* "none" turns it off */
+
+  /* Chat (Mandar). The -bg knobs take any CSS background value. */
+  --rwby-chat-bg: url("../assets/scroll-chat-bg.png") center / 313px auto;  /* whole panel */
+  --rwby-chat-bottom-bg: url("../assets/scroll-bottom-bg.png") center / 313px auto;  /* block along the bottom */
+  --rwby-chat-bottom-height: 13rem;
+  --rwby-chat-controls-height: 0rem;  /* minimum height of the button row */
+  --rwby-chat-input-bg: url("../assets/scroll-bg-nohex.png") center / auto;
+  --rwby-chat-input-color: #fffdfa;
+  --rwby-chat-input-height: 6rem;
+  --rwby-chat-message-bg: transparent;
+  --rwby-chat-message-color: #000000;  /* message text, sender, time, trash icon */
+  --rwby-chat-message-border: none;
+  --rwby-chat-jump-x: 0px;  /* jump arrow offset; negative = left/up */
+  --rwby-chat-jump-y: -1rem;
+  --rwby-chat-button-bg: transparent;
+  --rwby-chat-roll-bg: transparent;  /* roll result box */
+  --rwby-chat-roll-border: none;
+  --rwby-chat-sender-size: 1.3rem;
+  --rwby-chat-font: var(--rwby-font-body);
+
+  /* Health bar (Mandar). Band colors: 66%+, 33-66%, under 33%. */
+  --rwby-health-full: #25FF00;
+  --rwby-health-wounded: #FFC047;
+  --rwby-health-empty: red;
+  --rwby-healthbar-thickness: 22px;
+  --rwby-healthbar-gap: -215px;  /* space between the portrait and the bar */
   --rwby-healthbar-glow: rgba(255, 255, 255, 0);
   --rwby-healthbar-glow-size: 0px;
 
-  /* ---- Fonts ----
-     Separate stacks for body text and the name-field heading, so the name
-     field can look different without touching the rest of the sheet. */
+  /* Fonts */
   --rwby-font-body: "Century Gothic", "Roboto", sans-serif;
   --rwby-font-heading: "Century Gothic", "Elektra", sans-serif;
 }
 
-/* ---------- Page background (tileable scroll art) ----------
-   Swap "scroll-bg.png" for your own art. */
+/* Page background and rounded corner */
 body.rwby-scroll-theme .starwarsffg.sheet .window-content {
   background-color: var(--rwby-page-bg);
   background-image: url("../assets/scroll-bg.png");
   background-repeat: repeat;
   color: var(--rwby-text);
   font-family: var(--rwby-font-body);
-}
-
-/* ---------- Rounded top-left corner (scroll-roller shape) ----------
-   Rounds the corner and clips the window to it; the clipped wedge just
-   reveals whatever's behind the window. */
-body.rwby-scroll-theme .starwarsffg.sheet .window-content {
   border-top-left-radius: var(--rwby-corner-radius);
   overflow: hidden;
 }
-/* Item sheets set their own font-family on .item-form, which blocks
-   inheriting it from .window-content above. */
+
+/* Item sheets set their own font */
 body.rwby-scroll-theme .starwarsffg .item-form {
   font-family: var(--rwby-font-body);
 }
 
-/* ---------- Header bar background: scroll-handle cap + tiled parchment ----------
-   A fixed cap image (left, no-repeat) layered over a tiled texture
-   (repeat-x), scoped to just the top header row via :first-child so it
-   doesn't cover the stats row below. Both layers share the same
-   background-size so they scale together and stay aligned at any height. */
+/* Header art and padding */
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields > .container:first-child {
   background-image: url("../assets/scroll-handle-cap.png"), url("../assets/scroll-handle-loop.png");
   background-repeat: no-repeat, repeat-x;
   background-position: left top, left top;
   background-size: auto 100%, auto 100%;
-  /* border-box keeps the background reaching the window's true corner
-     despite the padding below. */
   background-origin: border-box;
-  /* Pushes the portrait/name inward so the rounded corner doesn't cut
-     into the portrait. */
   padding-top: var(--rwby-corner-radius);
   padding-left: var(--rwby-corner-radius);
-  /* Matching buffer below the content, same amount as above it. */
   padding-bottom: var(--rwby-corner-radius);
 }
-
-/* Same reason -- textareas set their own font-family too. */
 body.rwby-scroll-theme .starwarsffg .attribute .block-value textarea {
   font-family: var(--rwby-font-body);
 }
 
-/* ---------- Primary notched tab bar (character/item nav) ---------- */
+/* Tabs */
 body.rwby-scroll-theme .starwarsffg .tabs {
   border-top: 1px solid var(--rwby-accent);
   border-bottom: 1px solid var(--rwby-accent);
@@ -210,8 +133,6 @@ body.rwby-scroll-theme .starwarsffg .tabs {
 body.rwby-scroll-theme .starwarsffg .tabs .item {
   background-color: var(--rwby-panel-bg);
   color: var(--rwby-nav-color);
-  /* Pins the tab icon shadow to a fixed dark color so it can't end up
-     tied to our own text color and read as a same-color halo. */
   text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
   filter: none;
 }
@@ -228,14 +149,14 @@ body.rwby-scroll-theme .starwarsffg.v2 .tabs .item {
 }
 body.rwby-scroll-theme .starwarsffg.v2 .tabs .item.active {
   background: var(--rwby-panel-bg);
-  background-color: rgba(28, 22, 16, 0.85); /* rgba version of plate-bg */
+  background-color: rgba(28, 22, 16, 0.85);
 }
 body.rwby-scroll-theme .starwarsffg.sheet.actor.v2 .tabs .item.active,
 body.rwby-scroll-theme .starwarsffg.sheet.item.v2 .tabs .item.active {
   color: var(--rwby-tab-active-color);
 }
 
-/* ---------- Characteristic circles & labels ---------- */
+/* Characteristics */
 body.rwby-scroll-theme .starwarsffg .characteristic-item .characteristic-label {
   background-color: var(--rwby-plate-bg);
   color: var(--rwby-highlight);
@@ -244,8 +165,6 @@ body.rwby-scroll-theme .starwarsffg.sheet.actor .characteristic-item .characteri
   background-color: var(--rwby-plate-bg);
 }
 body.rwby-scroll-theme .starwarsffg .characteristic-item .characteristic {
-  /* Solid ring + inset hairline instead of border-style:double, which
-     rasterizes unevenly on a circle. */
   border: 3px solid var(--rwby-accent);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
 }
@@ -253,7 +172,7 @@ body.rwby-scroll-theme .starwarsffg .item-sheet-species .characteristics .charac
   background-color: var(--rwby-plate-bg);
 }
 
-/* ---------- Block / attribute panels (wounds, soak, resources, etc.) ---------- */
+/* Attribute blocks */
 body.rwby-scroll-theme .starwarsffg .block-background {
   background-color: var(--rwby-panel-bg);
 }
@@ -274,8 +193,6 @@ body.rwby-scroll-theme .starwarsffg .item-sheet-armor .attribute .block-title {
 body.rwby-scroll-theme .starwarsffg .item-sheet-armor .block-background {
   background-color: var(--rwby-panel-bg);
 }
-
-/* Duty/Morality style split shadow boxes */
 body.rwby-scroll-theme .starwarsffg .attribute .shadow-left {
   background-color: var(--rwby-plate-bg);
 }
@@ -289,47 +206,28 @@ body.rwby-scroll-theme .starwarsffg .attribute .shadow-right .shadow-text {
   color: var(--rwby-text);
 }
 
-/* ---------- Header name/description bar ----------
-   No background -- the header art shows through here too, so this row matches the rest. */
+/* Header name bar and details table */
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .header-description,
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .header-description-block {
   background: none;
 }
-
-/* ---------- Species/career/specs/force power/signature table rows ----------
-   Foundry stripes every other table row a lighter shade by default -- this
-   turns that off so all three rows match instead of one standing out. */
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .character-details-table tr,
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .character-details-table td {
   background: none;
 }
 
-/* ---------- Character/minion name heading font ----------
-   Keeps the big name field on its own font (see --rwby-font-heading
-   above) instead of the general --rwby-font-body used everywhere else,
-   so the two stay easy to tell apart in the code and easy to merge
-   later if you ever want the name field to match the rest of the sheet. */
+/* Name field */
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .header-name input,
 body.rwby-scroll-theme .starwarsffg .minion .minion-name input {
   font-family: var(--rwby-font-heading);
   font-weight: bold !important;
 }
 
-/* ---------- Character name field focus glow (kept separate from the
-   shared glow below on purpose) ----------
-   The shared glow further down uses --rwby-highlight for both box-shadow
-   and background-color -- that's the same off-white as
-   --rwby-charname-heading (this field's own text color), so focusing this
-   one field would wash its white text out against a near-white glow.
-   --rwby-charname-focus-glow defaults to a transparent yellow instead, and
-   only this field uses it -- every other input below keeps the original
-   white glow, untouched. */
+/* Focus glow */
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .header-name input:focus {
   box-shadow: 0 0 5px var(--rwby-charname-focus-glow);
   background-color: var(--rwby-charname-focus-glow);
 }
-
-/* ---------- Focus glow (every other input/select/textarea that highlights on focus) ---------- */
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .row input:focus,
 body.rwby-scroll-theme .starwarsffg .charname input:focus,
 body.rwby-scroll-theme .starwarsffg .characteristic-item .characteristic .characteristic-value input:focus,
@@ -343,9 +241,7 @@ body.rwby-scroll-theme .starwarsffg .item-sheet-criticalinjury select:focus {
   background-color: var(--rwby-highlight);
 }
 
-/* ---------- Header pills (species / career / specialization / force power / signature) ----------
-   No background or border -- the header's own art shows through behind
-   the text instead of a solid box, so filled and empty slots match. */
+/* Header pills and item pills */
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .specialization-pill,
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .species-pill,
 body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .career-pill,
@@ -355,14 +251,13 @@ body.rwby-scroll-theme .starwarsffg.sheet.actor .character .header-fields .force
   border: none;
   color: var(--rwby-text);
 }
-/* Item-list pills elsewhere on the sheet are unrelated to the header and keep their box. */
 body.rwby-scroll-theme .starwarsffg.sheet .item-pill {
   background-color: var(--rwby-panel-bg);
   border: 1px solid var(--rwby-accent);
   color: var(--rwby-text);
 }
 
-/* ---------- Items list, talents list, skills grid headers (shared "dark plate" bar) ---------- */
+/* List and skill headers */
 body.rwby-scroll-theme .starwarsffg .items .items-header,
 body.rwby-scroll-theme .starwarsffg .talent-list .talents-header,
 body.rwby-scroll-theme .starwarsffg .skillsGrid .skillTable .skillsHeader div,
@@ -377,18 +272,13 @@ body.rwby-scroll-theme .starwarsffg .items .items-list .force-power {
 }
 body.rwby-scroll-theme .starwarsffg .items .items-list .item:hover,
 body.rwby-scroll-theme .starwarsffg .items .items-list .force-power:hover {
-  background: rgba(184, 145, 47, 0.15); /* translucent accent hover */
+  background: rgba(184, 145, 47, 0.15);
 }
 body.rwby-scroll-theme .starwarsffg .skillsGrid .skillTypeGrid.skillColumnGrid {
   border: 1px solid var(--rwby-accent);
   background: rgba(184, 145, 47, 0.06);
 }
-/* Skills grid font, confined to .skillsGrid so it can't leak onto
-   gear/weapon/armor text. */
-body.rwby-scroll-theme .starwarsffg .skillsGrid {
-  font-family: var(--rwby-font-body);
-}
-/* Skills header row: font only, no bold -- didn't read well at this size. */
+body.rwby-scroll-theme .starwarsffg .skillsGrid,
 body.rwby-scroll-theme .starwarsffg .skillsGrid .skillTable .skillsHeader div {
   font-family: var(--rwby-font-body);
 }
@@ -397,7 +287,7 @@ body.rwby-scroll-theme .starwarsffg .resource.full table thead {
   color: var(--rwby-highlight);
 }
 
-/* ---------- Talent header (active vs passive stays visually distinct) ---------- */
+/* Talent headers */
 body.rwby-scroll-theme .starwarsffg .talent-background.talent-active .talent-header {
   background-color: var(--rwby-plate-bg);
   color: var(--rwby-highlight);
@@ -411,8 +301,7 @@ body.rwby-scroll-theme .starwarsffg .talent-background .talent-header div input[
   color: var(--rwby-highlight);
 }
 
-/* ---------- Item name ("charname") accent colors ----------
-   Per item type; see --rwby-charname-* in the variable block above. */
+/* Item name colors */
 body.rwby-scroll-theme .starwarsffg .charname input {
   color: var(--rwby-charname-base);
 }
@@ -435,7 +324,7 @@ body.rwby-scroll-theme .starwarsffg .item-sheet-modifiers .charname input {
   color: var(--rwby-charname-modifiers);
 }
 
-/* ---------- Armor item sheet accent (kept distinct from the maroon/brown original) ---------- */
+/* Armor and gear sheets */
 body.rwby-scroll-theme .starwarsffg .item-sheet-armor .charname input {
   color: var(--rwby-accent-deep);
 }
@@ -446,9 +335,6 @@ body.rwby-scroll-theme .starwarsffg .item-sheet-armor .characteristic-item .char
   border: 3px solid var(--rwby-accent-deep);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
 }
-
-/* ---------- Gear item sheet: swap pink card background + purple item-name text ----------
-   Both replaced by request. */
 body.rwby-scroll-theme .starwarsffg .item-sheet-gear .block-background {
   background-color: #42C3D1;
 }
@@ -456,17 +342,9 @@ body.rwby-scroll-theme .starwarsffg .item-sheet-gear .charname input {
   color: var(--rwby-charname-gear);
 }
 
-/* =========================================================================
-   PART 2 -- Mandar-mode hardening
+/* Mandar overrides (!important, since mandar.css loads later) */
 
-   Scoped under both the rwby-scroll-theme and rwby-scroll-theme-mandar
-   body classes theme.js adds when Mandar is active. Uses !important
-   throughout because mandar.css loads after this file and some of its
-   selectors out-specify a plain body-class override.
-   ========================================================================= */
-
-/* ---------- Page background, including the Character Creator Wizard window ----------
-   Mandar treats the Wizard as a separate Application (no ".sheet" class). */
+/* Page background, Wizard included */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet .window-content {
   background-color: var(--rwby-page-bg) !important;
   background-image: url("../assets/scroll-bg.png") !important;
@@ -474,8 +352,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet .window-conte
   color: var(--rwby-text) !important;
   font-family: var(--rwby-font-body) !important;
 }
-/* Same as Part 1 -- .item-form sets its own font-family, blocking
-   inheritance for item sheets. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-form {
   font-family: var(--rwby-font-body) !important;
 }
@@ -489,37 +365,23 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .window-cont
   color: var(--rwby-text) !important;
 }
 
-/* ---------- Wider minimum window size (Mandar-only) ----------
-   mandar.css caps the sheet at 600px wide, forcing the header's details
-   table to scroll horizontally; 700px gives it enough room. */
+/* Wider minimum sheet width */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor:has(.character) {
   min-width: 700px !important;
 }
 
-/* ---------- Picture frame: fixed square matching the name/details box (Mandar-only) ----------
-   Mandar's own .header-description-block (name + species/career/etc.) is a
-   fixed 170px tall, so the portrait is set to match that as a square
-   instead of Mandar's default 130px -- object-fit:cover (already set by
-   Mandar) crops the image to fit without stretching it. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block {
-  height: 170px !important;
-  width: 170px !important;
-  max-width: 170px !important;
-}
+/* Square portrait */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-img {
   height: 170px !important;
   width: 170px !important;
   max-width: 170px !important;
 }
 
-/* ---------- Wounds health bar, left of the portrait (Mandar-only) ----------
-   theme.js sets --rwby-health-pct on the bar each render (1 = full green,
-   0 = full red); CSS handles the rest. position:relative on the portrait
-   anchors the bar to its left edge. */
+/* Health bar (theme.js sets the fill height and color class) */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block {
   position: relative !important;
 }
-/* Vertical bar to the left of the portrait, spanning its full height. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block .rwby-healthbar {
   position: absolute !important;
   top: 0 !important;
@@ -532,8 +394,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   box-shadow: 0 0 var(--rwby-healthbar-glow-size) var(--rwby-healthbar-glow-size) var(--rwby-healthbar-glow) !important;
   overflow: hidden !important;
 }
-/* Fill is anchored to the bottom, so it drains from the top down as wounds
-   increase -- the remaining health always stays attached to the bottom. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block .rwby-healthbar-fill {
   display: block !important;
   position: absolute !important;
@@ -543,8 +403,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   height: calc(var(--rwby-health-pct, 1) * 100%) !important;
   transition: height 0.2s ease, background-color 0.2s ease !important;
 }
-/* theme.js adds one of these three classes to the fill; the height above
-   still moves smoothly, only the color now jumps between bands. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .profile-block .rwby-healthbar-fill.rwby-health-healthy {
   background-color: var(--rwby-health-full) !important;
 }
@@ -555,41 +413,21 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   background-color: var(--rwby-health-empty) !important;
 }
 
-/* ---------- Header cap: flush with the window's true top-left corner (Mandar-only) ----------
-   Zeroes out .window-content's and .header-fields' own top/left padding
-   so the header sits flush with the window's true corner. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .window-content:has(.character) {
-  padding-top: 0 !important;
-  padding-left: 0 !important;
-}
+/* Header flush with the window corner */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .window-content:has(.character),
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields {
   padding-top: 0 !important;
   padding-left: 0 !important;
 }
 
-/* ---------- Tab area height: stop the bottom from being cut off (Mandar-only) ----------
-   mandar.css sizes the tab area as "100% minus 15.75rem", assuming its own
-   header height. Our header has extra padding, so the tab area ended up
-   taller than the window and its bottom got clipped. This swaps in a
-   number we can tune. */
+/* Tab area: fitted height, no white panel, recolored divider */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body {
   height: calc(100% - var(--rwby-sheet-body-offset)) !important;
-}
-
-/* ---------- Every tab: remove the translucent white panel (Mandar-only) ----------
-   mandar.css washes the whole sheet-body with a translucent white
-   background on every tab. This turns that off everywhere, but leaves
-   mandar's own fading divider line (border-top/border-image, just below
-   the wash) alone -- just recolored to match our theme -- so that line
-   still shows at the top of every tab. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body {
   background: transparent !important;
   border-image: linear-gradient(to right, rgba(59, 174, 187, 0), #3baebb, rgba(59, 174, 187, 0)) 5% !important;
 }
 
-/* ---------- Hide that divider line on a few tabs where it looks out of
-   place (Characteristics, Critical Injuries, Obligation/Duty/Morality,
-   Active Effects) (Mandar-only) ---------- */
+/* No divider on these tabs */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body:has(.tab.characteristics.active),
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body:has(.tab.crits.active),
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body:has(.tab.obligation.active),
@@ -598,7 +436,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   border-image: none !important;
 }
 
-/* ---------- Primary notched tab bar (character/item nav) ---------- */
+/* Tabs */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .tabs {
   border-top: 1px solid var(--rwby-accent) !important;
   border-bottom: 1px solid var(--rwby-accent) !important;
@@ -606,8 +444,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .tabs {
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .tabs .item {
   background-color: var(--rwby-panel-bg) !important;
   color: var(--rwby-nav-color) !important;
-  /* Pins the tab icon shadow to a fixed dark color regardless of which
-     layer set it up, so it can't read as a same-color halo. */
   text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5) !important;
   filter: none !important;
 }
@@ -641,9 +477,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.v2 .tabs .item.acti
   filter: none !important;
 }
 
-/* ---------- Characteristic circles & labels ---------- */
-/* The notched card behind the circle+label pair; Mandar-only, no Default
-   equivalent. */
+/* Characteristics */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .characteristics .characteristic-item {
   background-color: var(--rwby-characteristic-bg) !important;
 }
@@ -652,8 +486,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .characteristic-ite
   color: var(--rwby-highlight) !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .characteristic-item .characteristic {
-  /* Same fix as Part 1 -- solid ring + inset hairline instead of
-     border-style:double. */
   border: 3px solid var(--rwby-accent) !important;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
   background: rgba(255, 255, 255, 0.9) !important;
@@ -662,9 +494,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-species
   background-color: var(--rwby-plate-bg) !important;
 }
 
-/* ---------- Block / attribute panels (wounds, soak, resources, etc.) ----------
-   Includes the deeper .general/.obligation/.effects resource-block
-   variants mandar.css declares separately from the plain rule. */
+/* Attribute blocks */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .block-background,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body .general .genesys .resource .attribute .block-background,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .sheet-body .general .block-editor .resource .attribute .block-background {
@@ -676,16 +506,11 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .block-background-s
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .attribute .block-title,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .attribute .block-header,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .injuries .attribute .block-title,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .injuries .block-header > div:first-child {
-  background-color: var(--rwby-plate-bg) !important;
-  color: var(--rwby-highlight) !important;
-}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .injuries .block-header > div:first-child,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .injuries .block-header > div:last-child {
   background-color: var(--rwby-plate-bg) !important;
   color: var(--rwby-highlight) !important;
 }
-
-/* Duty/Morality style split shadow boxes */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .shadow-left,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .attribute .shadow-left {
   background-color: var(--rwby-plate-bg) !important;
@@ -703,67 +528,35 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .attribute .shadow-
   color: var(--rwby-text) !important;
 }
 
-/* ---------- Header name/description bar ----------
-   No background -- the header art shows through here too, so this row matches the rest. */
+/* Header name bar and details table */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-description,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-description-block {
   background: none !important;
 }
-/* Just the name row (the plain div wrapping the "Ruby Rose" field) gets its
-   own solid color, sized to that row alone -- not the table below it. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-description-block > div:first-child {
   background-color: #4cc5cf !important;
 }
-
-/* ---------- Species/career/specs/force power/signature table rows ----------
-   Foundry stripes every other table row a lighter shade by default -- this
-   turns that off so all three rows match instead of one standing out. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table td {
   background: none !important;
 }
 
-/* ---------- Tighter label columns (Mandar-only) ----------
-   The label column (Species/Specs/Signature Abilities) shares its width
-   with the longest label in it, leaving short ones with a big gap before
-   the pill. Shrinking it to just fit its text closes most of that gap.
-   (No explicit width here on purpose -- the grid column below is "auto",
-   which already sizes itself to just fit the label text on its own; a
-   fixed width like the old "1%" table-layout trick actively fights that
-   and, combined with the pill-cell clipping further down, was cutting
-   the labels themselves off.) */
+/* Details table: labels shrink to fit */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table td:first-child,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table td:nth-child(3) {
   white-space: nowrap !important;
   padding-right: 0.1rem !important;
 }
 
-/* ---------- Push the whole name/details block right, away from the
-   picture (Mandar-only) ----------
-   This is the div holding BOTH the name field and the Archetype/Career/
-   Role/Semblance/Team Attacks table -- shifting it moves everything
-   together. Mandar sets this block to a flat 100% width, so shrinking it
-   by the same amount as the margin keeps its right edge in place --
-   without that, the margin would just push it that much past the edge. */
+/* Name block indent */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-name.header-description-block {
   margin-left: var(--rwby-details-indent) !important;
   width: calc(100% - var(--rwby-details-indent)) !important;
 }
 
-/* ---------- Reflow: Background/Education/Role/Semblance stacked in one
-   column, Team Attacks in its own column (Mandar-only) ----------
-   The table's own rows are turned into a small grid (display:contents on
-   <tr> lets its <td> cells be placed individually) so a long Team Attacks
-   list can grow tall without stretching the row it used to share with
-   Role. */
+/* Details table as a grid; Team Attacks gets its own column */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tbody {
   display: grid !important;
-  /* minmax(0, 1fr), not just 1fr: 1fr alone still refuses to shrink a
-     column smaller than the longest word sitting in it, which is what let
-     a long Background/Education/Role/Semblance name push the table wider
-     than the sheet. The 0 removes that floor -- see the ellipsis rule
-     below for what actually happens to that text once its column shrinks
-     past it. */
   grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) !important;
   gap: 0.15rem !important;
   width: 100% !important;
@@ -771,7 +564,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr {
   display: contents !important;
 }
-/* Row 1 as written: Species/Background, then Career/Education. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(1) td:nth-child(1) {
   grid-column: 1 !important;
   grid-row: 1 !important;
@@ -788,10 +580,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   grid-column: 2 !important;
   grid-row: 2 !important;
 }
-/* Row 2 as written: Specializations/Role moves up under Education; the
-   Team Attacks label and its pills now share ONE column (3) instead of
-   two -- label on top (row 1), pills stacked directly below it (rows
-   2-4), so pills start below the label instead of beside it. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(1) {
   grid-column: 1 !important;
   grid-row: 3 !important;
@@ -803,10 +591,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(3),
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(4) {
   grid-column: 3 !important;
-  /* A thin line down the left side, so Team Attacks reads as its own
-     section instead of looking crammed into the Archetype row above it.
-     text-align:left keeps the label and pills hugging that line instead
-     of drifting away from it. */
   border-left: 2px solid var(--rwby-accent) !important;
   padding-left: var(--rwby-team-attacks-gap) !important;
   text-align: left !important;
@@ -817,8 +601,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(4) {
   grid-row: 2 / span 3 !important;
 }
-/* Row 3 as written: Signature Abilities/Semblance moves up too; its two
-   unused trailing cells are just hidden. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(3) td:nth-child(1) {
   grid-column: 1 !important;
   grid-row: 4 !important;
@@ -831,10 +613,8 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(3) td:nth-child(4) {
   display: none !important;
 }
-/* Only the 5 pill cells get the "okay to shrink and clip" treatment --
-   applying that to every cell (including the label cells above) is what
-   just cut the labels themselves down to a sliver, since their whole
-   look depends on being allowed to overflow their artificially small box. */
+
+/* Pill cells can shrink and clip */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(1) td:nth-child(2),
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(1) td:nth-child(4),
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .character-details-table tr:nth-child(2) td:nth-child(2),
@@ -844,23 +624,18 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   overflow: hidden !important;
 }
 
-/* ---------- Character/minion name heading text & font (Mandar-only) ----------
-   Mandar wraps the name field in an <h2> and colors it dark red; Default
-   doesn't, so it has no matching rule here (see Part 1's version above). */
+/* Name field */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .header-fields .header-name h2 input,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .header-fields .minion-name h2 input {
   color: var(--rwby-charname-heading) !important;
   font-family: var(--rwby-font-heading) !important;
 }
 
-/* ---------- Character name field focus glow (kept separate from the
-   shared glow below -- same reasoning as the Part 1 version above) ---------- */
+/* Focus glow */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .header-name input:focus {
   box-shadow: 0 0 5px var(--rwby-charname-focus-glow) !important;
   background-color: var(--rwby-charname-focus-glow) !important;
 }
-
-/* ---------- Focus glow (every other input/select/textarea that highlights on focus) ---------- */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .row input:focus,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .charname input:focus,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .characteristic-item .characteristic .characteristic-value input:focus,
@@ -874,8 +649,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-critica
   background-color: var(--rwby-highlight) !important;
 }
 
-/* ---------- Header pills (species / career / specialization / force power / signature) ----------
-   No background or border -- the header art shows through instead of a solid box. */
+/* Header pills (long names get ... and a tooltip from theme.js) */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .specialization-pill,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .species-pill,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .career-pill,
@@ -885,10 +659,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   border: none !important;
   color: var(--rwby-text) !important;
 }
-/* A long Background/Education/Role/etc. name gets cut off with "..."
-   instead of stretching its column wider than the sheet. Hovering shows
-   the full name -- theme.js sets that up via a title attribute, since
-   plain CSS truncation has no way to reveal the rest of the text. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .specialization-pill,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .species-pill,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .header-fields .career-pill,
@@ -899,7 +669,8 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
-/* Item-list pills elsewhere on the sheet are unrelated to the header and keep their box. */
+
+/* Item pills */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet .item-pill,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-display .item-pill {
   background-color: var(--rwby-panel-bg) !important;
@@ -907,7 +678,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-display .item
   color: var(--rwby-text) !important;
 }
 
-/* ---------- Items list, talents list, skills grid headers (shared "dark plate" bar) ---------- */
+/* List and skill headers */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .items .items-header,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .talent-list .talents-header,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .skillsGrid .skillTable .skillsHeader div,
@@ -924,16 +695,13 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .items .items-list 
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .items .items-list .item:hover,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .items .items-list .force-power:hover {
-  background: rgba(184, 145, 47, 0.15) !important; /* translucent accent hover */
+  background: rgba(184, 145, 47, 0.15) !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .skillsGrid .skillTypeGrid.skillColumnGrid {
   border: 1px solid var(--rwby-accent) !important;
   background: rgba(184, 145, 47, 0.06) !important;
 }
-/* Skills grid font -- same reasoning as the Part 1 version above, no bold. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .skillsGrid {
-  font-family: var(--rwby-font-body) !important;
-}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .skillsGrid,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .skillsGrid .skillTable .skillsHeader div {
   font-family: var(--rwby-font-body) !important;
 }
@@ -942,7 +710,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .resource.full tabl
   color: var(--rwby-highlight) !important;
 }
 
-/* ---------- Talent header (active vs passive stays visually distinct) ---------- */
+/* Talent headers */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .talent-background.talent-active .talent-header {
   background-color: var(--rwby-plate-bg) !important;
   color: var(--rwby-highlight) !important;
@@ -955,9 +723,8 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .talent-background 
   background-color: var(--rwby-plate-bg) !important;
   color: var(--rwby-highlight) !important;
 }
-/* Force Power and Signature Ability item sheets (plus the Character
-   Creator's Force Power summary) set their own dark green / dark red
-   header color, which the rules above don't reach. This uses one knob. */
+
+/* Force Power / Signature Ability header color */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-forcepower .talent-background .talent-header,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-signatureability .talent-background .talent-header,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .forcePower-summary .talent-background .talent-header {
@@ -967,9 +734,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .talent-background 
   background-color: var(--rwby-panel-bg) !important;
 }
 
-/* ---------- Item name ("charname") accent colors ----------
-   Same as Part 1 -- see --rwby-charname-* above. Also colors vehicle-
-   weapon items, which mandar.css otherwise leaves black. */
+/* Item name colors */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .charname input {
   color: var(--rwby-charname-base) !important;
 }
@@ -992,7 +757,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-modifie
   color: var(--rwby-charname-modifiers) !important;
 }
 
-/* ---------- Armor item sheet accent (kept distinct from the maroon/brown original) ---------- */
+/* Armor and gear sheets */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-armor .charname input {
   color: var(--rwby-accent-deep) !important;
 }
@@ -1003,10 +768,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-armor .
   border: 3px solid var(--rwby-accent-deep) !important;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
 }
-
-/* ---------- Gear item sheet: swap pink card background + purple item-name text ----------
-   Same swap as Part 1, plus the characteristic-item background mandar.css
-   also colors pink. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-gear .characteristic-item,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-gear .block-background {
   background-color: #42C3D1 !important;
@@ -1015,7 +776,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg .item-sheet-gear .c
   color: var(--rwby-charname-gear) !important;
 }
 
-/* ---------- Character Creator Wizard (Mandar-only UI, no Default equivalent) ---------- */
+/* Character Creator */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .wizard-header {
   background-color: var(--rwby-plate-bg) !important;
   color: var(--rwby-highlight) !important;
@@ -1038,17 +799,11 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard label {
   color: var(--rwby-text-secondary) !important;
 }
 
-/* ---------- Wizard action icons (plus/minus, edit, trash) ----------
-   Only the resting color changes -- hover keeps mandar.css's own
-   green/red/blue. */
+/* Wizard icons (resting color only) */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .fa-plus-square,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .fa-minus-square {
-  color: var(--rwby-icon-color) !important;
-}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .fa-minus-square,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .fa-edit,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .obligation-edit {
-  color: var(--rwby-icon-color) !important;
-}
+body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .obligation-edit,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .fa-trash,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .remove-purchase,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .credit-refund,
@@ -1056,7 +811,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .motivation-
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .obligation-refund {
   color: var(--rwby-icon-color) !important;
 }
-
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .career_tab-container,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .specialization-container {
   background-color: var(--rwby-plate-bg) !important;
@@ -1082,8 +836,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .dt-paging-b
   background-color: var(--rwby-panel-bg) !important;
   color: var(--rwby-text) !important;
 }
-/* mandar.css also uses !important here; matching specificity plus
-   declaring later wins the tie. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.wizard .dt-paging-button.current {
   background-color: var(--rwby-plate-bg) !important;
   color: var(--rwby-highlight) !important;
@@ -1103,9 +855,7 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .ss-option:hover {
   color: var(--rwby-highlight) !important;
 }
 
-/* ---------- License card header, top of Basic Information tab (Mandar-only) ----------
-   Two headers side by side: "STUDENT LICENSE" takes up most of the row,
-   "NATION" gets the rest in a smaller font. Both are typable, not fixed text. */
+/* License card */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-header {
   display: flex !important;
   flex-wrap: nowrap !important;
@@ -1119,31 +869,17 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   min-width: 0 !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation {
-  /* Sized to its own text instead of stretching to fill the rest of the
-     row -- that's what was pinning it hard against the right edge. This
-     way it just sits right after the title, shifted in from the edge. */
   flex: 0 0 auto !important;
   min-width: 0 !important;
   margin-left: var(--rwby-license-nation-gap) !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title input,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation input {
-  /* Foundry's own default look for a text box is a faint dark tint plus a
-     subtle inset shadow -- clearing just "background" still leaves that
-     shadow visible, so both are reset here to make it fully invisible as
-     a box. */
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
-  /* --rwby-font-body's first choice is our bundled Century Gothic font --
-     using that instead of --rwby-font-heading guarantees Century Gothic
-     specifically, rather than risking Elektra if a player happens to have
-     it installed. */
   font-family: var(--rwby-font-body) !important;
   color: var(--rwby-charname-heading) !important;
-  /* Extra room above/below the text itself -- without this the browser's
-     default line-height is too tight for the bigger font sizes below and
-     clips the bottom of the letters. */
   line-height: 1.3 !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-title input {
@@ -1153,31 +889,18 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   font-weight: bold !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-nation input {
-  /* Sized to fit "NATION" comfortably rather than stretching -- this is
-     what actually keeps it shifted left instead of hugging the far edge. */
   width: 8rem !important;
   font-size: var(--rwby-license-nation-size) !important;
   text-align: left !important;
   text-transform: uppercase !important;
   font-weight: normal !important;
 }
-
-/* License card: photo on the left, fields on the right, stretched to
-   match whichever side is taller (Mandar-only). */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-card {
   display: flex !important;
-  /* flex-start instead of stretch -- with stretch, pushing the fields
-     down (or anything else that makes that side taller) also stretched
-     the photo taller to match. This keeps the photo at its own fixed
-     size no matter what the fields side does. */
   align-items: flex-start !important;
   gap: 0.75rem !important;
   margin-bottom: 0.75rem !important;
 }
-
-/* License fields (NAME, LN, PLACE OF ISSUE, AUTHORITY, RESTRICTIONS), each
-   its own row, with one extra gap between LN and PLACE OF ISSUE. Grows to
-   fill whatever room is left beside the photo. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-fields {
   display: flex !important;
   flex-direction: column !important;
@@ -1185,15 +908,8 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   min-width: 0 !important;
   padding-top: var(--rwby-license-fields-top) !important;
 }
-
-/* License photo -- click it to pick an image, same as the character
-   portrait. Spans the FULL height of the card (title row down through
-   the last field row), not just the fields. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-photo {
   flex: 0 0 var(--rwby-license-photo-width) !important;
-  /* Fixes the box's height to match a 626x850 ID photo's own proportions,
-     based purely on its width -- so its size no longer depends at all on
-     how tall the fields column next to it happens to be. */
   aspect-ratio: 626 / 850 !important;
   border: none !important;
   overflow: hidden !important;
@@ -1204,9 +920,8 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   object-fit: cover !important;
   cursor: pointer !important;
 }
-/* Divider between the license card and the Gender/Age/Notable Features
-   section below it. Same look as the license header line, but always on --
-   it has no on/off knob of its own. */
+
+/* Divider under the license card */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-card + .grid.grid-2col {
   border-top: 2px solid var(--rwby-accent) !important;
   padding-top: 0.75rem !important;
@@ -1222,7 +937,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   flex: 0 0 auto !important;
   font-size: var(--rwby-license-field-size) !important;
   font-weight: bold !important;
-  color: var(--rwby-text) !important;
   white-space: nowrap !important;
   color: var(--rwby-charname-heading) !important;
 }
@@ -1230,29 +944,18 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   flex: 1 !important;
   min-width: 0 !important;
   font-size: var(--rwby-license-field-size) !important;
-  /* Foundry's own default look for a text box is a faint dark tint plus a
-     subtle inset shadow -- clearing just "background" still leaves that
-     shadow visible, so both are reset here to make it fully invisible as
-     a box. */
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
-  /* No underline either -- just the typed text, nothing marking it as a
-     fillable box. */
-  border-bottom: none !important;
   color: var(--rwby-text) !important;
   font-family: var(--rwby-font-body) !important;
-  text-transform: uppercase !important
+  text-transform: uppercase !important;
 }
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.general .rwby-license-row-gap {
   height: var(--rwby-license-row-gap) !important;
 }
 
-/* Strength/Flaw/Desire/Fear, now living above the Biography text box --
-   just a little breathing room so it doesn't crowd the editor below it,
-   and forced to use the full width available (the default gap between the
-   two boxes creeps back in without the "general" tab's own rules reaching
-   here anymore, so that's set back to 0 here too, same as before the move). */
+/* Biography tab motivation boxes */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .tab.biography .rwby-bio-motivations {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -1260,14 +963,6 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   gap: 0 !important;
   margin: 0 0 0.75rem !important;
 }
-
-/* These 4 boxes had their height set by rules scoped to the Basic
-   Information tab -- now that they live on Biography instead, that sizing
-   doesn't reach them anymore and they collapse down to almost nothing.
-   This puts the same sizing back, scoped to their new home instead. Width
-   and margin are reset too, in case a leftover style from their old home
-   (a percentage width, or side margins meant for a 4-column layout) was
-   still shrinking them. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .character .rwby-bio-motivations .resource {
   min-height: var(--rwby-bio-motivation-height) !important;
   width: auto !important;
@@ -1290,64 +985,62 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar .starwarsffg.sheet.actor .charac
   height: 100% !important;
 }
 
-
-/* ---------- Chat sidebar (Mandar-only) ----------
-   The chat isn't part of a character sheet, so it has its own selectors.
-   Colors, art, and sizes all come from the --rwby-chat-* knobs at the top. */
+/* Chat */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat {
   background: var(--rwby-chat-bg) !important;
+  position: relative !important;
+  isolation: isolate !important;
 }
-/* Let the panel art show through behind the list of messages. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-log {
   background: transparent !important;
 }
-/* Each chat message / roll result: background, border, and base text color.
-   Several selectors are listed because Foundry's exact message markup can
-   vary. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-log .message {
+
+/* Messages */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message {
   background: var(--rwby-chat-message-bg) !important;
   border: var(--rwby-chat-message-border) !important;
   box-shadow: none !important;
   color: var(--rwby-chat-message-color) !important;
 }
-/* Foundry paints some parts of a message itself (the header strip, the
-   body), so those are cleared too. */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-header,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-content,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-header,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-content {
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-content {
   background: transparent !important;
   color: var(--rwby-chat-message-color) !important;
 }
-/* Sender name, time sent, flavor text, and the trash icon. These set their
-   own colors, so each is named here. (Dice symbols and other special
-   colors inside the message body are left alone.) */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-sender,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-timestamp,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-metadata,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .flavor-text,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-delete,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-delete i,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .fa-trash,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-sender,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-timestamp,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-metadata,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .flavor-text,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-delete,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-delete i,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .fa-trash {
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .fa-trash {
   color: var(--rwby-chat-message-color) !important;
 }
-/* The "scroll" block across the bottom of the chat, full width, sitting on
-   top of the panel art but behind the buttons, typing box, and messages.
-   It's drawn as a layer of #chat itself (z-index -1 keeps it underneath
-   everything else), so the panel's repeating background is not affected. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat {
-  position: relative !important;
-  isolation: isolate !important;
+
+/* Sender name size */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-sender {
+  font-size: var(--rwby-chat-sender-size) !important;
 }
+
+/* Chat font */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .message-content,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .message-sender,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .message-timestamp,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .flavor-text,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-message,
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-form textarea {
+  font-family: var(--rwby-chat-font) !important;
+}
+
+/* Roll result box */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .dice-roll {
+  background: var(--rwby-chat-roll-bg) !important;
+  border: var(--rwby-chat-roll-border) !important;
+  box-shadow: none !important;
+}
+
+/* Scroll block along the bottom, drawn behind everything */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat::after {
   content: "" !important;
   position: absolute !important;
@@ -1359,18 +1052,20 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat::after {
   z-index: -1 !important;
   pointer-events: none !important;
 }
-/* The row with the roll-type buttons (public/private/etc.) and the
-   save/delete buttons. theme.js tags it with the rwby-chat-controls class
-   because Foundry gives it no dependable name of its own. It has no
-   background of its own now -- the block above shows through behind it. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .rwby-chat-controls,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-controls {
+
+/* Button row (theme.js tags it) */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .rwby-chat-controls {
   background: transparent !important;
   min-height: var(--rwby-chat-controls-height) !important;
   box-sizing: border-box !important;
   align-items: center !important;
 }
-/* The box you type in. */
+body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .rwby-chat-controls :is(button, a, label, select, div, fieldset, span):not(.active):not(.selected):not([aria-pressed="true"]):not([aria-checked="true"]) {
+  background: var(--rwby-chat-button-bg) !important;
+  box-shadow: none !important;
+}
+
+/* Typing box */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-form textarea,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-message {
   background: var(--rwby-chat-input-bg) !important;
@@ -1382,44 +1077,9 @@ body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-message::placeholder
   color: var(--rwby-chat-input-color) !important;
   opacity: 0.7 !important;
 }
-/* The "jump to latest message" arrow button that appears when you scroll
-   up. "translate" shifts it from wherever Foundry puts it, using the
-   --rwby-chat-jump-x / -y knobs at the top. */
+
+/* Jump-to-latest arrow */
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .jump-to-bottom,
 body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat [data-action="jumpToBottom"] {
   translate: var(--rwby-chat-jump-x) var(--rwby-chat-jump-y) !important;
-}
-
-/* Clear the grey off the roll-type/save/delete buttons. Icons are untouched.
-   The currently selected roll type is skipped so you can still tell which is on. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .rwby-chat-controls :is(button, a, label, select, div, fieldset, span):not(.active):not(.selected):not([aria-pressed="true"]):not([aria-checked="true"]) {
-  background: var(--rwby-chat-button-bg) !important;
-  box-shadow: none !important;
-}
-
-/* The tan box around a roll result. Only the box is cleared; the dice
-   symbols inside are left alone. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .dice-roll,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .starwarsffg.dice-roll {
-  background: var(--rwby-chat-roll-bg) !important;
-  border: var(--rwby-chat-roll-border) !important;
-  box-shadow: none !important;
-}
-/* Bigger font for the sender's name only. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message .message-sender,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message .message-sender {
-  font-size: var(--rwby-chat-sender-size) !important;
-}
-
-/* Chat text uses the same font as the character sheet. Listed by part
-   (not "everything") so icons and dice symbols keep their own fonts. */
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .chat-message,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat li.message,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .message-content,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .message-sender,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .message-timestamp,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat .flavor-text,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-message,
-body.rwby-scroll-theme.rwby-scroll-theme-mandar #chat #chat-form textarea {
-  font-family: var(--rwby-chat-font) !important;
 }

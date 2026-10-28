@@ -181,7 +181,7 @@
 
     {{!-- Biography Tab --}}
     <div class="tab biography active" data-group="primary" data-tab="description">
-      {{!-- Strength/Flaw/Desire/Fear, moved here from Basic Information (RWBY Scroll Theme) --}}
+      {{!-- Strength/Flaw/Desire/Fear (moved from Basic Information) --}}
       {{#unless (eq this.FFG.theme "starwars")}}
       <div class="grid grid-2col genesys rwby-bio-motivations">
         {{> "systems/starwarsffg/templates/parts/shared/ffg-block.html" (object blocktype="single" title="SWFFG.Strength" type="PopoutEditor" name="data.motivation.strength" value=data.motivation.strength)}} {{> "systems/starwarsffg/templates/parts/shared/ffg-block.html" (object blocktype="single" title="SWFFG.Flaw" type="PopoutEditor" name="data.motivation.flaw" value=data.motivation.flaw)}} {{> "systems/starwarsffg/templates/parts/shared/ffg-block.html" (object blocktype="single" title="SWFFG.Desire" type="PopoutEditor" name="data.motivation.desire" value=data.motivation.desire)}} {{> "systems/starwarsffg/templates/parts/shared/ffg-block.html" (object blocktype="single" title="SWFFG.Fear" type="PopoutEditor" name="data.motivation.fear" value=data.motivation.fear)}}
@@ -216,8 +216,7 @@
 
     {{!-- General Tab (basic information) --}}
     <div class="tab general" data-group="primary" data-tab="general">
-      {{!-- License header (RWBY Scroll Theme): full width, above both the
-           photo and the fields. --}}
+      {{!-- License header --}}
       <div class="rwby-license-header">
         <div class="rwby-license-title">
           <input type="text" name="flags.rwby-scroll-theme.licenseTitle" value="{{#if actor.flags.rwby-scroll-theme.licenseTitle}}{{actor.flags.rwby-scroll-theme.licenseTitle}}{{else}}STUDENT LICENSE{{/if}}" data-dtype="String" />
@@ -226,9 +225,9 @@
           <input type="text" name="flags.rwby-scroll-theme.licenseNation" value="{{#if actor.flags.rwby-scroll-theme.licenseNation}}{{actor.flags.rwby-scroll-theme.licenseNation}}{{else}}NATION{{/if}}" data-dtype="String" />
         </div>
       </div>
-      {{!-- License card: photo on the left, fields on the right (RWBY Scroll Theme). --}}
+      {{!-- License card --}}
       <div class="rwby-license-card">
-        {{!-- License photo -- click it to pick an image, just like the portrait --}}
+        {{!-- License photo --}}
         <div class="rwby-license-photo">
           <img src="{{#if actor.flags.rwby-scroll-theme.licensePhoto}}{{actor.flags.rwby-scroll-theme.licensePhoto}}{{else}}icons/svg/mystery-man.svg{{/if}}" data-edit="flags.rwby-scroll-theme.licensePhoto" title="{{localize 'RWBY-SCROLL-THEME.License.Photo'}}" />
         </div>
@@ -306,7 +305,6 @@
           </div>
         </div>
         {{/if}}
-        {{!-- Strength/Flaw/Desire/Fear moved to the Biography tab (RWBY Scroll Theme) --}}
         <div class="resource full">
           <div class="attribute flex-group-center">
             <div class="block-background">
